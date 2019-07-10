@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="it" ng-controller="MainController as ctrl" id="lkapp">
+    <head>
+        <meta charset="utf-8">
+        <title>LK Nails & Beauty</title>
+
+        <link href="data:image/png;base64,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" rel="icon" type="image/x-icon" />
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/onsen/2.10.6/js/onsenui.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/onsen/2.10.6/css/onsenui.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/onsen/2.10.6/css/onsen-css-components.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular-route.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/onsen/2.10.6/js/angular-onsenui.min.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"> 
+
+        <link href='https://fullcalendar.io/releases/core/4.2.0/main.min.css' rel='stylesheet' />
+        <link href='https://fullcalendar.io/releases/daygrid/4.2.0/main.min.css' rel='stylesheet' />
+        <link href='https://fullcalendar.io/releases/timegrid/4.2.0/main.min.css' rel='stylesheet' />
+
+        <script src='https://fullcalendar.io/releases/core/4.2.0/main.min.js'></script>
+        <script src='https://fullcalendar.io/releases/daygrid/4.2.0/main.min.js'></script>
+        <script src='https://fullcalendar.io/releases/interaction/4.2.0/main.min.js'></script>
+        <script src='https://fullcalendar.io/releases/timegrid/4.2.0/main.min.js'></script>
+
+        <style>
+
+            .fc-toolbar{
+                display: none !important;
+            }
+
+        </style>
+
+    </head>
+    <body>
+        <ons-navigator var="nav" page="home.html">
+        </ons-navigator>
+
+        <template id="home.html">
+            <ons-page>
+                <ons-toolbar>
+                    <div class="center">
+                        LK Nails & Beauty
+                    </div>
+                </ons-toolbar>
+
+                <ons-tabbar swipeable position="auto" ons-prechange="namePage($event)">
+                    <ons-tab page="appuntamenti.html" label="Home" icon="fa-home" active>
+                    </ons-tab>
+                    <ons-tab page="anagrafica.html" label="Anagrafica" icon="fa-address-book">
+                    </ons-tab>
+                </ons-tabbar>
+            </ons-page>
+        </template>
+
+        <template id="appuntamenti.html">
+            <ons-page id="main" style="text-align: center;">
+                <ons-toolbar>
+                    <div class="left">
+                        <ons-button modifier="quiet" onclick="fc_nav(-1)" icon="fa-arrow-circle-left"></ons-button>&nbsp;
+                        <ons-button modifier="quiet" onclick="fc_nav(0)" icon="fa-calendar-check" style="color: green"></ons-button>&nbsp;
+                        <ons-button modifier="quiet" onclick="fc_nav(1)" icon="fa-arrow-circle-right"></ons-button>
+                    </div>
+                    <div class="center">
+                        <span id="dayInfoFc"></span>
+                    </div>
+                    <div class="right">
+                        <ons-button modifier="quiet" onclick="fc_view('timeGridDay')" icon="fa-calendar-day" style="color: orange"></ons-button>&nbsp;
+                        <ons-button modifier="quiet" onclick="fc_view('timeGridWeek')" icon="fa-calendar-week" style="color: red"></ons-button>&nbsp;
+                        <ons-button modifier="quiet" onclick="fc_view('dayGridMonth')" icon="fa-calendar-alt" style="color: brown"></ons-button>&nbsp;
+                    </div>
+                </ons-toolbar>
+                <ons-card>
+                    <div class="content">
+                        <div id="calendar"></div>
+
+                        <script>
+
+                            var api='XUImABxDE9BJK7bPyOXC6A0REfwZ0vVg';
+                            var calendarEl = document.getElementById('calendar');
+                            var calendar = new FullCalendar.Calendar(calendarEl, {
+                                plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
+                                defaultView: 'timeGridDay',
+                                header: {
+                                    left: 'prev,next today',
+                                    center: 'title',
+                                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                                },
+                                height: 'auto',
+                                minTime: '07:00:00',
+                                maxTime: '22:00:00',
+                                allDaySlot: false,
+
+                                eventSources: [
+
+                                    {
+                                        url: makeUri('eventi', null),
+                                        method: 'GET',
+                                        failure: function() {
+                                            alert('there was an error while fetching events!');
+                                        }
+                                    }
+                                ]
+
+                            });
+
+                            calendar.setOption('locale', 'it');
+                            calendar.render();
+                            renderDay();
+
+                            function makeUri(path, query){
+                                query = (query==null) ? '' : ((query != '') ? '&' + query : '');
+                                return 'https://api.mlab.com/api/1/databases/heroku_s4qtgnv8/collections/' + path + '?apiKey=' + api + query;
+                            }
+
+                            function clicca(item){
+                                document.getElementsByClassName(item)[0].click();
+                                var dt = document.getElementsByClassName('fc-day-header')[0].innerHTML;
+                                dt += ', ' + document.getElementsByClassName('fc-toolbar')[0].getElementsByClassName('fc-center')[0].getElementsByTagName('h2')[0].innerHTML;
+                                document.getElementById('subt').innerHTML = dt;
+                            }
+
+                            function fc_nav(val){
+                                if (val==-1){
+                                    calendar.prev();
+                                } else if (val==1){
+                                    calendar.next();
+                                } else {
+                                    calendar.today();
+                                }
+                                renderDay();
+                            }
+
+                            function fc_view(val){
+                                calendar.changeView(val);
+                                renderDay();
+                            }
+
+                            function viewNote(idn){
+                                angular.element(document.getElementById('lkapp')).scope().loadNota(idn);
+                            }
+
+                            function renderDay(){
+                                var dt = document.getElementsByClassName('fc-day-header')[0].innerHTML;
+                                dt += ', ' + document.getElementsByClassName('fc-toolbar')[0].getElementsByClassName('fc-center')[0].getElementsByTagName('h2')[0].innerHTML;
+                                document.getElementById('dayInfoFc').innerHTML = dt;
+                            }
+
+                        </script>
+                    </div>
+                </ons-card>
+            </ons-page>
+        </template>
+
+        <template id="anagrafica.html">
+            <ons-page id="about" style="text-align: center;" ons-show="ctrl.loadTable()">
+                <ons-toolbar>
+                    <div class="left">
+                        <div style="text-align: center; margin: 7px;">
+                            <ons-search-input style="height: 100%; width: 100%; text-align: center" placeholder="Cerca Cliente"></ons-search-input>
+                        </div>
+                    </div>
+                    <div class="center">
+                    </div>
+                    <div class="right">
+                        <ons-button modifier="quiet" onclick="alert('BUTTON RIGHT')" icon="fa-calendar-day" style="color: orange"></ons-button>
+                    </div>
+                </ons-toolbar>
+                <ons-progress-circular indeterminate ng-show="progressNotif"></ons-progress-circular>
+            </ons-page>
+        </template>
+
+        <template id="about.html">
+            <ons-page id="about" style="text-align: center;">
+                <div style="text-align: center; padding: 10px;">
+                    <h3>INSTAGRAM BOT</h3>
+                    <p>Sviluppato da AAAR IT Solutions<br/>
+                        <a href="mailto:aaaronny.studio@gmail.com">contatta lo sviluppatore</a>
+                    </p>
+                </div>
+            </ons-page>
+        </template>
+
+        <template id="cli-manager.html">
+            <ons-page>
+                <ons-toolbar>
+                    <div class="left">
+                        <ons-back-button></ons-back-button>
+                    </div>
+                    <div class="center">
+                        LK Nails & Beauty
+                    </div>
+                </ons-toolbar>
+                <ons-list>
+                    <ons-list-title><h2 style="text-align: center;"><span ng-if="fakeCli.ngact == 'PUT'">MODIFICA </span> 
+                        <span ng-if="fakeCli.ngact == 'POST'">AGGIUNGI </span> 
+                        CLIENTE</h2></ons-list-title>
+                </ons-list>
+                <div style="margin: 10px; padding: 10px;">
+                    <ons-row style="margin: 10px;">
+                        <ons-col>Username</ons-col>
+                        <ons-col>
+                            <ons-input id="username" modifier="underbar" placeholder="Username" float ng-model="fakeCli.username" ng-readonly="fakeCli.ngact == 'PUT'"></ons-input>
+                        </ons-col>
+                    </ons-row>
+                    <ons-row style="margin: 10px;">
+                        <ons-col>Password</ons-col>
+                        <ons-col><ons-input id="username" modifier="underbar" placeholder="Password" float ng-model="fakeCli.password"></ons-input>
+                        </ons-col>
+                    </ons-row>
+                </div>
+                <p style="text-align: center;">
+                    <ons-button style="display: inline-block;  max-width: 350px; margin:10px;" modifier="large" ng-if="fakeCli.ngact == 'PUT'" ng-click="saveCliente('PUT')" icon="fa-save"> SALVA</ons-button>
+                    <ons-button style="display: inline-block;  max-width: 350px; margin:10px;" modifier="large" ng-if="fakeCli.ngact == 'POST'" ng-click="saveCliente('POST')" icon="fa-save"> SALVA</ons-button>
+                </p>
+            </ons-page>
+        </template>
+
+        <template id="view-nota.html">
+            <ons-page>
+                <ons-toolbar>
+                    <div class="left">
+                        <ons-back-button></ons-back-button>
+                    </div>
+                    <div class="center">
+                        LK Nails & Beauty
+                    </div>
+                </ons-toolbar>
+                <div style="text-align: center">
+                    <ons-card>
+                        <div class="title">
+                            <ons-row>
+                                <ons-col><div style="text-align: left;">Cliente: {{nota.cliente}}</div></ons-col>
+                                <ons-col><div style="text-align: right;">Totale: {{nota.prezzo}} euro</div></ons-col>
+                            </ons-row>
+                        </div>
+                        <div class="content">
+                            <ons-list>
+                                <ons-list-item ng-repeat="t in ntratt">
+                                    <div class="left"><ons-icon icon="fa-allergies" size="20px"></ons-icon></div>
+                                    <div class="center">{{t}}</div>
+                                </ons-list-item>
+                            </ons-list>
+                        </div>
+                    </ons-card>
+                </div>
+            </ons-page>
+        </template>
+
+        <script>
+
+            ons.bootstrap()
+                .controller('MainController', function($scope, $http) {
+
+                $scope.progressNotif = true;
+
+                // tracker pagina attiva
+                $scope.namePage = function($event) {
+                    $scope.thisPage = angular.element($event.tabItem).attr('label');
+                };
+
+                $scope.fakeCli = null;
+
+                $scope.showEditCli = function(uu,pp,rr,ss, met){
+                    $scope.fakeCli = {
+                        username: uu,
+                        password: pp,
+                        action: rr.split('/')[0].split('-')[2],
+                        param: rr.split('/')[1],
+                        status: (ss == 'A'),
+                        ngact: met
+                    };
+                    $scope.nav.pushPage('cli-manager.html');
+                }
+
+                // ajax per recupero note appuntamento
+                $scope.loadNota = function(idNota){
+                    $scope.progressNotif = true;
+                    var uu = makeUri('note/' + idNota, null);
+                    console.log('URL: ' + uu);
+                    $http(
+                        {
+                            method : "GET",
+                            url : uu
+                        }
+                    ).then(
+                        function mySuccess(response) {
+                            console.log(response);
+                            $scope.nota = response.data;
+                            var t = response.data.trattamenti.split(";");
+                            var nt = Array();
+                            for (var i=0; i<t.length-1; ++i)
+                                nt.push(t[i]);
+                            $scope.ntratt = nt;
+                            $scope.nav.pushPage('view-nota.html');
+                        }
+                    );
+                }
+
+                // ajax per recupero note appuntamento
+                $scope.loadAnagrafica = function(query){
+                    $scope.progressNotif = true;
+                    var uu = makeUri('clienti', query);
+                    console.log('URL: ' + uu);
+                    $http(
+                        {
+                            method : "GET",
+                            url : uu
+                        }
+                    ).then(
+                        function mySuccess(response) {
+                            console.log(response);
+                            $scope.anag = response.data;
+                            $scope.progressNotif = false;
+                        }
+                    );
+                }
+
+                // ajax per recupero clienti
+                function loadsClienti(){
+                    $scope.progressNotif = true;
+                    $http(
+                        {
+                            method : "GET",
+                            url : '/json/Clienti'
+                        }
+                    ).then(
+                        function mySuccess(response) {
+                            $scope.clienti = response.data;
+                            $scope.progressNotif = false;
+                        }
+                    );
+                }
+
+                // ajax per salvataggio info cliente
+                $scope.saveCliente = function(met){
+                    $http(
+                        {
+                            method : met,
+                            url : '/json/Clienti',
+                            data : {
+                                username: $scope.fakeCli.username,
+                                password: $scope.fakeCli.password,
+                                status: ($scope.fakeCli.status) ? 'A' : 'D',
+                                param: 'follow-by-' + $scope.fakeCli.action + '/' + $scope.fakeCli.param
+                            }
+                        }
+                    ).then(
+                        function mySuccess(response) {
+                            document.location.reload();
+                        }
+                    );
+                }
+
+                // ajax per action generica (follow, unfollow, stop)
+                $scope.doAct = function(act){
+                    $http(
+                        {
+                            method : 'GET',
+                            url : '/' + act,
+                        }
+                    ).then(
+                        function mySuccess(response) {
+                            document.location.reload();
+                        }
+                    );
+                }
+
+                var kabo = function(){
+                    alert('kabotar');
+                }
+
+                });
+
+        </script>
+
+    </body>
+</html>
