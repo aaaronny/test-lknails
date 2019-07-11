@@ -23,6 +23,79 @@
         <script src='https://fullcalendar.io/releases/interaction/4.2.0/main.min.js'></script>
         <script src='https://fullcalendar.io/releases/timegrid/4.2.0/main.min.js'></script>
 
+        <script>
+
+            var api='XUImABxDE9BJK7bPyOXC6A0REfwZ0vVg';
+            var calendar = null;
+
+            function initAppJs(){
+                var calendarEl = document.getElementById('calendar');
+                calendar = new FullCalendar.Calendar(calendarEl, {
+                    plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
+                    defaultView: 'timeGridDay',
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    },
+                    height: 'auto',
+                    minTime: '07:00:00',
+                    maxTime: '22:00:00',
+                    allDaySlot: false,
+                    firstDay: 1,
+
+                    eventSources: [
+
+                        {
+                            url: makeUri('eventi', null),
+                            method: 'GET',
+                            failure: function() {
+                                alert('there was an error while fetching events!');
+                            }
+                        }
+                    ]
+
+                });
+
+                calendar.setOption('locale', 'it');
+                calendar.render();
+                renderDay();
+            }
+
+            function makeUri(path, query){
+                query = (query==null) ? '' : ((query != '') ? '&' + query : '');
+                return 'https://api.mlab.com/api/1/databases/heroku_s4qtgnv8/collections/' + path + '?apiKey=' + api + query;
+            }
+
+            function fc_nav(val){
+                if (val==-1){
+                    calendar.prev();
+                } else if (val==1){
+                    calendar.next();
+                } else {
+                    calendar.today();
+                }
+                renderDay();
+            }
+
+            function fc_view(val){
+                calendar.changeView(val);
+                renderDay();
+            }
+
+            function viewNote(idn){
+                angular.element(document.getElementById('lkapp')).scope().loadNota(idn);
+            }
+
+            function renderDay(){
+                var dt = document.getElementsByClassName('fc-day-header')[0].innerHTML;
+                //dt += ', ' + document.getElementsByClassName('fc-toolbar')[0].getElementsByClassName('fc-center')[0].getElementsByTagName('h2')[0].innerHTML;
+                dt = document.getElementsByClassName('fc-toolbar')[0].getElementsByClassName('fc-center')[0].getElementsByTagName('h2')[0].innerHTML;
+                document.getElementById('dayInfoFc').innerHTML = dt;
+            }
+
+        </script>
+
         <style>
 
             .fc-toolbar{
@@ -50,8 +123,10 @@
                     <div class="center">
                         LK Nails & Beauty
                     </div>
+                    <div class="right">
+                        <ons-toolbar-button ng-click="ctrl.addToDb(thisPage)" icon="fa-plus"></ons-toolbar-button>
+                    </div>
                 </ons-toolbar>
-
                 <ons-tabbar swipeable position="auto" ons-prechange="namePage($event)">
                     <ons-tab page="appuntamenti.html" label="Home" icon="fa-home" active>
                     </ons-tab>
@@ -83,80 +158,8 @@
                 <ons-card>
                     <div class="content">
                         <div id="calendar"></div>
-
                         <script>
-
-                            var api='XUImABxDE9BJK7bPyOXC6A0REfwZ0vVg';
-                            var calendarEl = document.getElementById('calendar');
-                            var calendar = new FullCalendar.Calendar(calendarEl, {
-                                plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
-                                defaultView: 'timeGridDay',
-                                header: {
-                                    left: 'prev,next today',
-                                    center: 'title',
-                                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                                },
-                                height: 'auto',
-                                minTime: '07:00:00',
-                                maxTime: '22:00:00',
-                                allDaySlot: false,
-                                firstDay: 1,
-
-                                eventSources: [
-
-                                    {
-                                        url: makeUri('eventi', null),
-                                        method: 'GET',
-                                        failure: function() {
-                                            alert('there was an error while fetching events!');
-                                        }
-                                    }
-                                ]
-
-                            });
-
-                            calendar.setOption('locale', 'it');
-                            calendar.render();
-                            renderDay();
-
-                            function makeUri(path, query){
-                                query = (query==null) ? '' : ((query != '') ? '&' + query : '');
-                                return 'https://api.mlab.com/api/1/databases/heroku_s4qtgnv8/collections/' + path + '?apiKey=' + api + query;
-                            }
-
-                            function clicca(item){
-                                document.getElementsByClassName(item)[0].click();
-                                var dt = document.getElementsByClassName('fc-day-header')[0].innerHTML;
-                                dt += ', ' + document.getElementsByClassName('fc-toolbar')[0].getElementsByClassName('fc-center')[0].getElementsByTagName('h2')[0].innerHTML;
-                                document.getElementById('subt').innerHTML = dt;
-                            }
-
-                            function fc_nav(val){
-                                if (val==-1){
-                                    calendar.prev();
-                                } else if (val==1){
-                                    calendar.next();
-                                } else {
-                                    calendar.today();
-                                }
-                                renderDay();
-                            }
-
-                            function fc_view(val){
-                                calendar.changeView(val);
-                                renderDay();
-                            }
-
-                            function viewNote(idn){
-                                angular.element(document.getElementById('lkapp')).scope().loadNota(idn);
-                            }
-
-                            function renderDay(){
-                                var dt = document.getElementsByClassName('fc-day-header')[0].innerHTML;
-                                dt += ', ' + document.getElementsByClassName('fc-toolbar')[0].getElementsByClassName('fc-center')[0].getElementsByTagName('h2')[0].innerHTML;
-                                document.getElementById('dayInfoFc').innerHTML = dt;
-                            }
-
+                            initAppJs();
                         </script>
                     </div>
                 </ons-card>
@@ -164,7 +167,7 @@
         </template>
 
         <template id="anagrafica.html">
-            <ons-page id="about" style="text-align: center;" ons-show="ctrl.loadAnagrafica()">
+            <ons-page id="anagrafica" style="text-align: center;" ons-show="ctrl.loadAnagrafica()">
                 <ons-toolbar>
                     <div class="center">
                         <div style="text-align: center; margin: 7px;">
@@ -175,7 +178,7 @@
                 <ons-progress-circular indeterminate ng-show="progressNotif"></ons-progress-circular>
                 <ons-list>
                     <ons-list-item ng-repeat="n in listaAnag">
-                        <div class="left"><ons-icon icon="fa-user-tie" size="20px"></ons-icon></div>
+                        <div class="left"><ons-icon icon="fa-user-tie" class="list-item__icon"></ons-icon></div>
                         <div class="center">{{n.nome}} {{n.cognome}}</div>
                     </ons-list-item>
                 </ons-list>
@@ -183,42 +186,32 @@
         </template>
 
         <template id="trattamenti.html">
-            <ons-page id="about" style="text-align: center;" ons-show="ctrl.loadTrattamenti()">
+            <ons-page id="trattamenti" style="text-align: center;" ons-show="ctrl.loadTrattamenti()">
                 <ons-toolbar>
                     <div class="center">
                         <div style="text-align: center; margin: 7px;">
-                            <ons-search-input style="height: 100%; width: 100%; text-align: center" placeholder="Cerca Cliente" ng-change="ctrl.filterTratt(tratFind)" ng-model="tratFind"></ons-search-input>
+                            <ons-search-input style="height: 100%; width: 100%; text-align: center" placeholder="Cerca Trattamento" ng-change="ctrl.filterTratt(tratFind)" ng-model="tratFind"></ons-search-input>
                         </div>
                     </div>
                 </ons-toolbar>
                 <ons-progress-circular indeterminate ng-show="progressNotif"></ons-progress-circular>
                 <ons-list>
-                    <ons-list-item ng-repeat="t in listaTratt" expandable>
-                        <div class="left"><ons-icon icon="fa-allergies" size="20px"></ons-icon></div>
-                        <div class="center">{{t.descrizione}}</div>
-                        <div class="expandable-content">
-                                <ons-icon icon="fa-hourglass-half"></ons-icon><span> {{t.minuti}} min</span> - 
-                                <ons-icon icon="fa-cash-register"></ons-icon><span> {{t.prezzo}} </span><ons-icon icon="fa-euro-sign"></ons-icon>
-
+                    <ons-list-item ng-repeat="t in listaTratt" tappable ng-click="ctrl.trattamentiManager(t)">
+                        <div class="left"><ons-icon icon="fa-allergies" class="list-item__icon"></ons-icon></div>
+                        <div class="center">
+                            <span class="list-item__title">{{t.descrizione}}</span>
+                            <span class="list-item__subtitle">Dettagli</span>
                         </div>
-                        <div class="right">todel</div>
+                        <div class="expandable-content">
+                            <ons-icon icon="fa-hourglass-half"></ons-icon><span> {{t.minuti}} min</span> - 
+                            <ons-icon icon="fa-cash-register"></ons-icon><span> {{t.prezzo}} </span><ons-icon icon="fa-euro-sign"></ons-icon>
+                        </div>
                     </ons-list-item>
                 </ons-list>
             </ons-page>
         </template>
 
-        <template id="about.html">
-            <ons-page id="about" style="text-align: center;">
-                <div style="text-align: center; padding: 10px;">
-                    <h3>INSTAGRAM BOT</h3>
-                    <p>Sviluppato da AAAR IT Solutions<br/>
-                        <a href="mailto:aaaronny.studio@gmail.com">contatta lo sviluppatore</a>
-                    </p>
-                </div>
-            </ons-page>
-        </template>
-
-        <template id="cli-manager.html">
+        <template id="anag-manager.html">
             <ons-page>
                 <ons-toolbar>
                     <div class="left">
@@ -235,20 +228,63 @@
                 </ons-list>
                 <div style="margin: 10px; padding: 10px;">
                     <ons-row style="margin: 10px;">
-                        <ons-col>Username</ons-col>
+                        <ons-col>Nome</ons-col>
                         <ons-col>
-                            <ons-input id="username" modifier="underbar" placeholder="Username" float ng-model="fakeCli.username" ng-readonly="fakeCli.ngact == 'PUT'"></ons-input>
+                            <ons-input modifier="underbar" placeholder="Nome" float ng-model="fakeCli.nome"></ons-input>
                         </ons-col>
                     </ons-row>
                     <ons-row style="margin: 10px;">
-                        <ons-col>Password</ons-col>
-                        <ons-col><ons-input id="username" modifier="underbar" placeholder="Password" float ng-model="fakeCli.password"></ons-input>
+                        <ons-col>Cognome</ons-col>
+                        <ons-col><ons-input modifier="underbar" placeholder="Cognome" float ng-model="fakeCli.cognome"></ons-input>
                         </ons-col>
                     </ons-row>
                 </div>
                 <p style="text-align: center;">
                     <ons-button style="display: inline-block;  max-width: 350px; margin:10px;" modifier="large" ng-if="fakeCli.ngact == 'PUT'" ng-click="saveCliente('PUT')" icon="fa-save"> SALVA</ons-button>
                     <ons-button style="display: inline-block;  max-width: 350px; margin:10px;" modifier="large" ng-if="fakeCli.ngact == 'POST'" ng-click="saveCliente('POST')" icon="fa-save"> SALVA</ons-button>
+                </p>
+            </ons-page>
+        </template>
+
+        <template id="tratt-manager.html">
+            <ons-page>
+                <ons-toolbar>
+                    <div class="left">
+                        <ons-back-button></ons-back-button>
+                    </div>
+                    <div class="center">
+                        LK Nails & Beauty
+                    </div>
+                </ons-toolbar>
+                <ons-list>
+                    <ons-list-title><h2 style="text-align: center;"><span ng-if="fakeTratt.ngact == 'PUT'">MODIFICA </span> 
+                        <span ng-if="fakeTratt.ngact == 'POST'">AGGIUNGI </span> 
+                        TRATTAMENTO</h2></ons-list-title>
+                </ons-list>
+                <div style="margin: 10px; padding: 10px;">
+                    <ons-row style="margin: 10px;">
+                        <ons-col>Descrizione</ons-col>
+                        <ons-col>
+                            <ons-input modifier="underbar" placeholder="Descrizione" float ng-model="fakeTratt.descrizione"></ons-input>
+                        </ons-col>
+                    </ons-row>
+                    <ons-row style="margin: 10px;">
+                        <ons-col>Prezzo Base</ons-col>
+                        <ons-col>
+                            <ons-input modifier="underbar" readonly float style="width: 15px" value="€"></ons-input>
+                            <ons-input modifier="underbar" placeholder="Prezzo Base" float ng-model="fakeTratt.prezzo" type="number" min="0"></ons-input>
+                        </ons-col>
+                    </ons-row>
+                    <ons-row style="margin: 10px;">
+                        <ons-col>Durata in Minuti</ons-col>
+                        <ons-col><ons-input modifier="underbar" placeholder="Durata in Minuti" float ng-model="fakeTratt.minuti" type="number" min="10"></ons-input>
+                        </ons-col>
+                    </ons-row>
+                </div>
+                <p style="text-align: center;">
+                    <ons-button style="display: inline-block;  max-width: 350px; margin:10px;" modifier="large" ng-if="fakeTratt.ngact == 'PUT'" ng-click="ctrl.updateTrattamenti(fakeTratt)" icon="fa-save"> SALVA</ons-button>
+                    <ons-button style="display: inline-block;  max-width: 350px; margin:10px; background-color: red" modifier="large" ng-if="fakeTratt.ngact == 'PUT'" ng-click="ctrl.delTrattamenti(fakeTratt)" icon="fa-trash"> ELIMINA</ons-button>
+                    <ons-button style="display: inline-block;  max-width: 350px; margin:10px;" modifier="large" ng-if="fakeTratt.ngact == 'POST'" ng-click="ctrl.addTrattamenti(fakeTratt)" icon="fa-save"> AGGIUNGI</ons-button>
                 </p>
             </ons-page>
         </template>
@@ -290,28 +326,163 @@
                 .controller('MainController', function($scope, $http) {
 
                 $scope.progressNotif = true;
-
-                // tracker pagina attiva
-                $scope.namePage = function($event) {
-                    $scope.thisPage = angular.element($event.tabItem).attr('label');
-                };
+                $scope.thisPage = 'Home';
 
                 $scope.fakeCli = null;
-
-                $scope.showEditCli = function(uu,pp,rr,ss, met){
-                    $scope.fakeCli = {
-                        username: uu,
-                        password: pp,
-                        action: rr.split('/')[0].split('-')[2],
-                        param: rr.split('/')[1],
-                        status: (ss == 'A'),
-                        ngact: met
-                    };
-                    $scope.nav.pushPage('cli-manager.html');
-                }
+                $scope.fakeTratt = null;
 
                 // ajax per recupero note appuntamento
                 $scope.loadNota = function(idNota){
+                    ajaxLoadNota(idNota);
+                }
+
+
+                // CONTROLLER FUNCTIONS
+
+                // ajax per recupero note appuntamento
+                this.loadAnagrafica = function(){
+                    ajaxLoadAnagrafica();
+                }
+
+                // TRATTAMENTI
+                {
+                    // cancellazione
+                    this.delTrattamenti = function(idt){
+                        ajaxDelTrattamenti(idt);
+                    }
+                    
+                    // modifica
+                    this.updateTrattamenti = function(idt){
+                        ajaxUpdateTrattamenti(idt);
+                    }
+                    
+                    // aggiunta
+                    this.addTrattamenti = function(idt){
+                        ajaxAddTrattamenti(idt);
+                    }
+
+                    // caricamento
+                    this.loadTrattamenti = function(){
+                        ajaxLoadTrattamenti();
+                    }
+                }
+
+                //https://api.mlab.com/api/1/databases/my-db/collections/my-coll/4e7315a65e4ce91f885b7dde
+
+                // AJAX SERVICES
+
+
+                // TRATTAMENTI:
+
+                function ajaxLoadTrattamenti(idt){
+                    $scope.progressNotif = true;
+                    var uu = makeUri('trattamenti', 's={"descrizione": 1}');
+                    console.log('URL: ' + uu);
+                    $http(
+                        {
+                            method : "GET",
+                            url : uu
+                        }
+                    ).then(
+                        function mySuccess(response) {
+                            console.log(response);
+                            $scope.listaTratt = response.data;
+                            $scope.BEtrattAll = response.data;
+                            $scope.progressNotif = false;
+                        }
+                    );
+                }
+
+                function ajaxDelTrattamenti(idt){
+                    var uu = makeUri('trattamenti/' + idt.id, null);
+                    console.log('URL: ' + uu);
+                    $http(
+                        {
+                            method : "DELETE",
+                            url : uu
+                        }
+                    ).then(
+                        function mySuccess(response) {
+                            console.log('ELIMINATO: ' + response);
+                            makeToast('Trattamento ' + idt.descrizione + ' eliminato!');
+                            ajaxLoadTrattamenti();
+                            nav.popPage();
+                        }
+                    );
+                }
+
+                function ajaxUpdateTrattamenti(idt){
+                    var uu = makeUri('trattamenti/' + idt.id, null);
+                    console.log('URL: ' + uu);
+                    $http(
+                        {
+                            method : "PUT",
+                            url : uu,
+                            data : {
+                                descrizione: idt.descrizione,
+                                prezzo: idt.prezzo,
+                                minuti: idt.minuti
+                            }
+                        }
+                    ).then(
+                        function mySuccess(response) {
+                            console.log('MODIFICATO: ' + response);
+                            makeToast('Trattamento ' + idt.descrizione + ' modificato!');
+                            ajaxLoadTrattamenti();
+                            nav.popPage();
+                        }
+                    );
+                }
+
+                function ajaxAddTrattamenti(idt){
+                    var uu = makeUri('trattamenti', null);
+                    console.log('URL: ' + uu);
+                    $http(
+                        {
+                            method : "POST",
+                            url : uu,
+                            data : {
+                                descrizione: idt.descrizione,
+                                prezzo: idt.prezzo,
+                                minuti: idt.minuti
+                            }
+                        }
+                    ).then(
+                        function mySuccess(response) {
+                            console.log('AGGIUNTO: ' + response);
+                            makeToast('Trattamento ' + idt.descrizione + ' aggiunto!');
+                            ajaxLoadTrattamenti();
+                            nav.popPage();
+                        }
+                    );
+                }
+
+
+                // ANAGRAFICA
+
+                function ajaxLoadAnagrafica(){
+                    $scope.progressNotif = true;
+                    var uu = makeUri('clienti', 's={"nome": 1, "cognome": 1}');
+                    console.log('URL: ' + uu);
+                    $http(
+                        {
+                            method : "GET",
+                            url : uu
+                        }
+                    ).then(
+                        function mySuccess(response) {
+                            console.log(response);
+                            $scope.listaAnag = response.data;
+                            $scope.BEanagAll = response.data;
+                            $scope.progressNotif = false;
+                        }
+                    );
+                }
+
+
+                // NOTA APPUNTAMENTO
+
+                function ajaxLoadNota(idNota){
                     $scope.progressNotif = true;
                     var uu = makeUri('note/' + idNota, null);
                     console.log('URL: ' + uu);
@@ -334,60 +505,36 @@
                     );
                 }
 
-                // ajax per recupero note appuntamento
-                this.loadAnagrafica = function(){
-                    $scope.progressNotif = true;
-                    var uu = makeUri('clienti', null);
-                    console.log('URL: ' + uu);
-                    $http(
-                        {
-                            method : "GET",
-                            url : uu
-                        }
-                    ).then(
-                        function mySuccess(response) {
-                            console.log(response);
-                            $scope.listaAnag = response.data;
-                            $scope.BEanagAll = response.data;
-                            $scope.progressNotif = false;
-                        }
-                    );
-                }
 
-                // ajax per recupero note appuntamento
-                this.loadTrattamenti = function(){
-                    $scope.progressNotif = true;
-                    var uu = makeUri('trattamenti', null);
-                    console.log('URL: ' + uu);
-                    $http(
-                        {
-                            method : "GET",
-                            url : uu
-                        }
-                    ).then(
-                        function mySuccess(response) {
-                            console.log(response);
-                            $scope.listaTratt = response.data;
-                            $scope.BEtrattAll = response.data;
-                            $scope.progressNotif = false;
-                        }
-                    );
-                }
 
-                // ajax per recupero clienti
-                function loadsClienti(){
-                    $scope.progressNotif = true;
-                    $http(
-                        {
-                            method : "GET",
-                            url : '/json/Clienti'
-                        }
-                    ).then(
-                        function mySuccess(response) {
-                            $scope.clienti = response.data;
-                            $scope.progressNotif = false;
-                        }
-                    );
+                // FE-VIEW PAGINE DEI FORM
+                {
+
+                    showFormAnag = function(nn,cc, met){
+                        $scope.fakeCli = {
+                            username: nn,
+                            password: cc,
+                            ngact: met
+                        };
+                        $scope.nav.pushPage('anag-manager.html');
+                    }
+
+                    showFormTratt = function(id, dd, pp, mm, met){
+                        $scope.fakeTratt = {
+                            id: id,
+                            descrizione: dd,
+                            prezzo: pp,
+                            minuti: mm,
+                            ngact: met
+                        };
+                        $scope.nav.pushPage('tratt-manager.html');
+                    }
+
+                    this.trattamentiManager = function(tratt){
+                        showFormTratt(tratt._id.$oid, tratt.descrizione, tratt.prezzo, tratt.minuti, 'PUT');
+                    }
+
+
                 }
 
                 // ajax per salvataggio info cliente
@@ -424,23 +571,70 @@
                     );
                 }
 
-                this.filterAnag = function(query){
-                    console.log(query);
-                    var q = query.toUpperCase().trim();
-                    var a = $scope.BEanagAll;
-                    var r = Array();
-                    for (var i=0; i<a.length; ++i){
-                        var x = a[i];
-                        var nc = x.nome.toUpperCase() + ' ' + x.cognome.toUpperCase();
-                        var cn = x.cognome.toUpperCase() + ' ' + x.nome.toUpperCase();
-                        var t1 = nc.toUpperCase().match(q);
-                        var t2 = cn.toUpperCase().match(q);
-                        if ((t1 != null) || (t2 != null))
-                            r.push(x);
+
+                // FILTRI RICERCHE
+                {
+
+                    this.filterAnag = function(query){
+                        console.log(query);
+                        var q = query.toUpperCase().trim();
+                        q = q.replace(/ /g, '');
+                        var a = $scope.BEanagAll;
+                        var r = Array();
+                        for (var i=0; i<a.length; ++i){
+                            var x = a[i];
+                            var nc = x.nome.toUpperCase().replace(/ /g, '') + x.cognome.toUpperCase().replace(/ /g, '');
+                            var cn = x.cognome.toUpperCase().replace(/ /g, '') + x.nome.toUpperCase().replace(/ /g, '');
+                            var t1 = nc.toUpperCase().match(q);
+                            var t2 = cn.toUpperCase().match(q);
+                            if ((t1 != null) || (t2 != null))
+                                r.push(x);
+                        }
+                        $scope.listaAnag = r;
                     }
-                    $scope.anag = r;
+
+                    this.filterTratt = function(query){
+                        console.log(query);
+                        var q = query.toUpperCase().trim();
+                        q = q.replace(/ /g, '');
+                        var a = $scope.BEtrattAll;
+                        var r = Array();
+                        for (var i=0; i<a.length; ++i){
+                            var x = a[i];
+                            var nc = x.descrizione.toUpperCase();
+                            var t = nc.toUpperCase().replace(/ /g, '').match(q);
+                            if (t != null)
+                                r.push(x);
+                        }
+                        $scope.listaTratt = r;
+                    }
+
                 }
 
+                // HELPER
+                {
+
+                    // utility per creazione alert toast
+                    function makeToast(msg){
+                        ons.notification.toast({buttonLabels: 'OK', cancelable: true, message: msg});
+                    }
+
+                    // button add manager
+                    this.addToDb = function(page){
+                        console.log('TEST FOR ADD: ' + page);
+                        if (page=='Anagrafica')
+                            showFormAnag('','', 'POST');
+                        if (page=='Trattamenti')
+                            showFormTratt('', '','', '', 'POST');
+
+                    }
+
+                    // tracker pagina attiva
+                    $scope.namePage = function($event) {
+                        $scope.thisPage = angular.element($event.tabItem).attr('label');
+                    };
+
+                }
             });
 
         </script>
