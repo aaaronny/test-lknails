@@ -2,7 +2,7 @@
 <html lang="it" ng-controller="MainController as ctrl" id="lkapp">
     <head>
         <meta charset="utf-8">
-        <title>LK Nails & Beauty</title>
+        <title>{{applicationName}}</title>
 
         <link href="data:image/png;base64,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" rel="icon" type="image/x-icon" />
 
@@ -12,632 +12,1383 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular-route.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/onsen/2.10.6/js/angular-onsenui.min.js"></script>
+
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"> 
-
-        <link href='https://fullcalendar.io/releases/core/4.2.0/main.min.css' rel='stylesheet' />
-        <link href='https://fullcalendar.io/releases/daygrid/4.2.0/main.min.css' rel='stylesheet' />
-        <link href='https://fullcalendar.io/releases/timegrid/4.2.0/main.min.css' rel='stylesheet' />
-
-        <script src='https://fullcalendar.io/releases/core/4.2.0/main.min.js'></script>
-        <script src='https://fullcalendar.io/releases/daygrid/4.2.0/main.min.js'></script>
-        <script src='https://fullcalendar.io/releases/interaction/4.2.0/main.min.js'></script>
-        <script src='https://fullcalendar.io/releases/timegrid/4.2.0/main.min.js'></script>
-
-        <script>
-
-            var api='XUImABxDE9BJK7bPyOXC6A0REfwZ0vVg';
-            var calendar = null;
-
-            function initAppJs(){
-                var calendarEl = document.getElementById('calendar');
-                calendar = new FullCalendar.Calendar(calendarEl, {
-                    plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
-                    defaultView: 'timeGridDay',
-                    header: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                    },
-                    height: 'auto',
-                    minTime: '07:00:00',
-                    maxTime: '22:00:00',
-                    allDaySlot: false,
-                    firstDay: 1,
-
-                    eventSources: [
-
-                        {
-                            url: makeUri('eventi', null),
-                            method: 'GET',
-                            failure: function() {
-                                alert('there was an error while fetching events!');
-                            }
-                        }
-                    ]
-
-                });
-
-                calendar.setOption('locale', 'it');
-                calendar.render();
-                renderDay();
-            }
-
-            function makeUri(path, query){
-                query = (query==null) ? '' : ((query != '') ? '&' + query : '');
-                return 'https://api.mlab.com/api/1/databases/heroku_s4qtgnv8/collections/' + path + '?apiKey=' + api + query;
-            }
-
-            function fc_nav(val){
-                if (val==-1){
-                    calendar.prev();
-                } else if (val==1){
-                    calendar.next();
-                } else {
-                    calendar.today();
-                }
-                renderDay();
-            }
-
-            function fc_view(val){
-                calendar.changeView(val);
-                renderDay();
-            }
-
-            function viewNote(idn){
-                angular.element(document.getElementById('lkapp')).scope().loadNota(idn);
-            }
-
-            function renderDay(){
-                var dt = document.getElementsByClassName('fc-day-header')[0].innerHTML;
-                //dt += ', ' + document.getElementsByClassName('fc-toolbar')[0].getElementsByClassName('fc-center')[0].getElementsByTagName('h2')[0].innerHTML;
-                dt = document.getElementsByClassName('fc-toolbar')[0].getElementsByClassName('fc-center')[0].getElementsByTagName('h2')[0].innerHTML;
-                document.getElementById('dayInfoFc').innerHTML = dt;
-            }
-
-        </script>
 
         <style>
 
-            .fc-toolbar{
-                display: none !important;
-            }
-
-            .fc-day-header{
-                background-color: lightblue !important;
-            }
-
-            .fc-sun, .fc-sat {
+            .calendar_weekendDay {
                 background-color: #fee;
             }
 
+            .calendar_ferialDay {
+                background-color: #fcfcff;
+            }
+
+            .calendar_header {
+                background-color: lightblue;
+                text-align: center;
+            }
+
+            .calendar_block {
+                border: 1px black solid;
+                margin: 1px;
+            }
+
+            .calendar_today{
+                background-color: lightyellow;
+            }
+
+            .calendar_dayHeader {
+                text-align: right;
+                padding-right: 10px;
+                font-size: 1.1em;
+                background-color: coral;
+                color: white;
+            }
+
+            .calendar_event{
+                font-size: 10pt;
+                margin-top: 2px;
+                margin-bottom: 2px;
+                width: 95% !important; 
+            }
+
+            input[type=date]::-webkit-datetime-edit {
+                display: none;
+            }
+
+            input[type=date]::-webkit-clear-button {
+                display: none;
+            }
+            input[type=date]::-webkit-inner-spin-button {
+                display: none;
+            }
+            input[type=date]::-webkit-calendar-picker-indicator {
+                font-size: 18px;
+                opacity: 100;
+            }
         </style>
 
     </head>
     <body>
-        <ons-navigator var="nav" page="home.html">
-        </ons-navigator>
+        <div ng-if="auth">
+            <ons-navigator var="nav" page="home.html">
+            </ons-navigator>
 
-        <template id="home.html">
-            <ons-page>
-                <ons-toolbar>
-                    <div class="center">
-                        LK Nails & Beauty
-                    </div>
-                    <div class="right">
-                        <ons-toolbar-button ng-click="ctrl.addToDb(thisPage)" icon="fa-plus"></ons-toolbar-button>
-                    </div>
-                </ons-toolbar>
-                <ons-tabbar swipeable position="auto" ons-prechange="namePage($event)">
-                    <ons-tab page="appuntamenti.html" label="Home" icon="fa-home" active>
-                    </ons-tab>
-                    <ons-tab page="anagrafica.html" label="Anagrafica" icon="fa-address-book">
-                    </ons-tab>
-                    <ons-tab page="trattamenti.html" label="Trattamenti" icon="fa-umbrella-beach">
-                    </ons-tab>
-                </ons-tabbar>
-            </ons-page>
-        </template>
-
-        <template id="appuntamenti.html">
-            <ons-page id="main" style="text-align: center;">
-                <ons-toolbar>
-                    <div class="left">
-                        <ons-button modifier="quiet" onclick="fc_nav(-1)" icon="fa-arrow-circle-left"></ons-button>&nbsp;
-                        <ons-button modifier="quiet" onclick="fc_nav(0)" icon="fa-calendar-check" style="color: green"></ons-button>&nbsp;
-                        <ons-button modifier="quiet" onclick="fc_nav(1)" icon="fa-arrow-circle-right"></ons-button>
-                    </div>
-                    <div class="center">
-                        <span id="dayInfoFc"></span>
-                    </div>
-                    <div class="right">
-                        <ons-button modifier="quiet" onclick="fc_view('timeGridDay')" icon="fa-calendar-day" style="color: orange"></ons-button>&nbsp;
-                        <ons-button modifier="quiet" onclick="fc_view('timeGridWeek')" icon="fa-calendar-week" style="color: red"></ons-button>&nbsp;
-                        <ons-button modifier="quiet" onclick="fc_view('dayGridMonth')" icon="fa-calendar-alt" style="color: brown"></ons-button>&nbsp;
-                    </div>
-                </ons-toolbar>
-                <ons-card>
-                    <div class="content">
-                        <div id="calendar"></div>
-                        <script>
-                            initAppJs();
-                        </script>
-                    </div>
-                </ons-card>
-            </ons-page>
-        </template>
-
-        <template id="anagrafica.html">
-            <ons-page id="anagrafica" style="text-align: center;" ons-show="ctrl.loadAnagrafica()">
-                <ons-toolbar>
-                    <div class="center">
-                        <div style="text-align: center; margin: 7px;">
-                            <ons-search-input style="height: 100%; width: 100%; text-align: center" placeholder="Cerca Cliente" ng-change="ctrl.filterAnag(cliFind)" ng-model="cliFind"></ons-search-input>
-                        </div>
-                    </div>
-                </ons-toolbar>
-                <ons-progress-circular indeterminate ng-show="progressNotif"></ons-progress-circular>
-                <ons-list>
-                    <ons-list-item ng-repeat="n in listaAnag">
-                        <div class="left"><ons-icon icon="fa-user-tie" class="list-item__icon"></ons-icon></div>
-                        <div class="center">{{n.nome}} {{n.cognome}}</div>
-                    </ons-list-item>
-                </ons-list>
-            </ons-page>
-        </template>
-
-        <template id="trattamenti.html">
-            <ons-page id="trattamenti" style="text-align: center;" ons-show="ctrl.loadTrattamenti()">
-                <ons-toolbar>
-                    <div class="center">
-                        <div style="text-align: center; margin: 7px;">
-                            <ons-search-input style="height: 100%; width: 100%; text-align: center" placeholder="Cerca Trattamento" ng-change="ctrl.filterTratt(tratFind)" ng-model="tratFind"></ons-search-input>
-                        </div>
-                    </div>
-                </ons-toolbar>
-                <ons-progress-circular indeterminate ng-show="progressNotif"></ons-progress-circular>
-                <ons-list>
-                    <ons-list-item ng-repeat="t in listaTratt" tappable ng-click="ctrl.trattamentiManager(t)">
-                        <div class="left"><ons-icon icon="fa-allergies" class="list-item__icon"></ons-icon></div>
+            <template id="home.html">
+                <ons-page>
+                    <ons-toolbar>
                         <div class="center">
-                            <span class="list-item__title">{{t.descrizione}}</span>
-                            <span class="list-item__subtitle">Dettagli</span>
+                            {{applicationName}}
                         </div>
-                        <div class="expandable-content">
-                            <ons-icon icon="fa-hourglass-half"></ons-icon><span> {{t.minuti}} min</span> - 
-                            <ons-icon icon="fa-cash-register"></ons-icon><span> {{t.prezzo}} </span><ons-icon icon="fa-euro-sign"></ons-icon>
+                        <div class="right">
+                            <ons-toolbar-button ng-click="ctrl.addToDb(thisPage)" icon="fa-plus"></ons-toolbar-button>
                         </div>
-                    </ons-list-item>
-                </ons-list>
-            </ons-page>
-        </template>
+                    </ons-toolbar>
+                    <ons-tabbar position="bottom" ons-prechange="namePage($event)">
+                        <ons-tab page="appuntamenti.html" label="Home" icon="fa-home" active>
+                        </ons-tab>
+                        <ons-tab page="anagrafica.html" label="Anagrafica" icon="fa-address-book">
+                        </ons-tab>
+                        <ons-tab page="trattamenti.html" label="Trattamenti" icon="fa-umbrella-beach">
+                        </ons-tab>
+                    </ons-tabbar>
+                </ons-page>
+            </template>
 
-        <template id="anag-manager.html">
-            <ons-page>
-                <ons-toolbar>
-                    <div class="left">
-                        <ons-back-button></ons-back-button>
-                    </div>
-                    <div class="center">
-                        LK Nails & Beauty
-                    </div>
-                </ons-toolbar>
-                <ons-list>
-                    <ons-list-title><h2 style="text-align: center;"><span ng-if="fakeCli.ngact == 'PUT'">MODIFICA </span> 
-                        <span ng-if="fakeCli.ngact == 'POST'">AGGIUNGI </span> 
-                        CLIENTE</h2></ons-list-title>
-                </ons-list>
-                <div style="margin: 10px; padding: 10px;">
-                    <ons-row style="margin: 10px;">
-                        <ons-col>Nome</ons-col>
-                        <ons-col>
-                            <ons-input modifier="underbar" placeholder="Nome" float ng-model="fakeCli.nome"></ons-input>
-                        </ons-col>
-                    </ons-row>
-                    <ons-row style="margin: 10px;">
-                        <ons-col>Cognome</ons-col>
-                        <ons-col><ons-input modifier="underbar" placeholder="Cognome" float ng-model="fakeCli.cognome"></ons-input>
-                        </ons-col>
-                    </ons-row>
-                </div>
-                <p style="text-align: center;">
-                    <ons-button style="display: inline-block;  max-width: 350px; margin:10px;" modifier="large" ng-if="fakeCli.ngact == 'PUT'" ng-click="saveCliente('PUT')" icon="fa-save"> SALVA</ons-button>
-                    <ons-button style="display: inline-block;  max-width: 350px; margin:10px;" modifier="large" ng-if="fakeCli.ngact == 'POST'" ng-click="saveCliente('POST')" icon="fa-save"> SALVA</ons-button>
-                </p>
-            </ons-page>
-        </template>
-
-        <template id="tratt-manager.html">
-            <ons-page>
-                <ons-toolbar>
-                    <div class="left">
-                        <ons-back-button></ons-back-button>
-                    </div>
-                    <div class="center">
-                        LK Nails & Beauty
-                    </div>
-                </ons-toolbar>
-                <ons-list>
-                    <ons-list-title><h2 style="text-align: center;"><span ng-if="fakeTratt.ngact == 'PUT'">MODIFICA </span> 
-                        <span ng-if="fakeTratt.ngact == 'POST'">AGGIUNGI </span> 
-                        TRATTAMENTO</h2></ons-list-title>
-                </ons-list>
-                <div style="margin: 10px; padding: 10px;">
-                    <ons-row style="margin: 10px;">
-                        <ons-col>Descrizione</ons-col>
-                        <ons-col>
-                            <ons-input modifier="underbar" placeholder="Descrizione" float ng-model="fakeTratt.descrizione"></ons-input>
-                        </ons-col>
-                    </ons-row>
-                    <ons-row style="margin: 10px;">
-                        <ons-col>Prezzo Base</ons-col>
-                        <ons-col>
-                            <ons-input modifier="underbar" readonly float style="width: 15px" value="€"></ons-input>
-                            <ons-input modifier="underbar" placeholder="Prezzo Base" float ng-model="fakeTratt.prezzo" type="number" min="0"></ons-input>
-                        </ons-col>
-                    </ons-row>
-                    <ons-row style="margin: 10px;">
-                        <ons-col>Durata in Minuti</ons-col>
-                        <ons-col><ons-input modifier="underbar" placeholder="Durata in Minuti" float ng-model="fakeTratt.minuti" type="number" min="10"></ons-input>
-                        </ons-col>
-                    </ons-row>
-                </div>
-                <p style="text-align: center;">
-                    <ons-button style="display: inline-block;  max-width: 350px; margin:10px;" modifier="large" ng-if="fakeTratt.ngact == 'PUT'" ng-click="ctrl.updateTrattamenti(fakeTratt)" icon="fa-save"> SALVA</ons-button>
-                    <ons-button style="display: inline-block;  max-width: 350px; margin:10px; background-color: red" modifier="large" ng-if="fakeTratt.ngact == 'PUT'" ng-click="ctrl.delTrattamenti(fakeTratt)" icon="fa-trash"> ELIMINA</ons-button>
-                    <ons-button style="display: inline-block;  max-width: 350px; margin:10px;" modifier="large" ng-if="fakeTratt.ngact == 'POST'" ng-click="ctrl.addTrattamenti(fakeTratt)" icon="fa-save"> AGGIUNGI</ons-button>
-                </p>
-            </ons-page>
-        </template>
-
-        <template id="view-nota.html">
-            <ons-page>
-                <ons-toolbar>
-                    <div class="left">
-                        <ons-back-button></ons-back-button>
-                    </div>
-                    <div class="center">
-                        LK Nails & Beauty
-                    </div>
-                </ons-toolbar>
-                <div style="text-align: center">
-                    <ons-card>
-                        <div class="title">
-                            <ons-row>
-                                <ons-col><div style="text-align: left;">Cliente: {{nota.cliente}}</div></ons-col>
-                                <ons-col><div style="text-align: right;"><span>Totale: {{nota.prezzo}} </span><ons-icon icon="fa-euro-sign"></ons-icon></div></ons-col>
-                            </ons-row>
+            <template id="appuntamenti.html">
+                <ons-page id="main" style="text-align: center;" ons-show="ctrl.fc_nav(0)">
+                    <ons-toolbar>
+                        <div class="left" style="margin-left: 15px;">
+                            <ons-button modifier="quiet" style="{{styleCalButton}}" ng-click="ctrl.fc_nav(-1)" icon="fa-arrow-circle-left" id="cal-butt-left"></ons-button>&nbsp;
+                            <ons-button modifier="quiet" ng-click="ctrl.fc_nav('oggi')" icon="fa-calendar-check" style="color: green;{{styleCalButton}}"></ons-button>&nbsp;
+                            <ons-button modifier="quiet" style="{{styleCalButton}}" ng-click="ctrl.fc_nav(1)" icon="fa-arrow-circle-right" id="cal-butt-right"></ons-button>
                         </div>
-                        <div class="content">
-                            <ons-list>
-                                <ons-list-item ng-repeat="t in ntratt">
-                                    <div class="left"><ons-icon icon="fa-allergies" size="20px"></ons-icon></div>
-                                    <div class="center">{{t}}</div>
+                        <div class="center"  style="text-align: center !important;">
+                            <span>{{headerCalendar}}</span>
+                        </div>
+                        <div class="right" style="margin-right: 15px;">
+                            <ons-button modifier="quiet" ng-click="ctrl.changeView('giorno')" icon="fa-calendar-day" style="color: orange; {{styleCalButton}}"></ons-button>&nbsp;
+                            <ons-button ng-show="!isPhone" modifier="quiet" ng-click="ctrl.changeView('settimana')" icon="fa-calendar-week" style="color: red; {{styleCalButton}}"></ons-button>&nbsp;
+                            <ons-button modifier="quiet" ng-click="ctrl.changeView('mese')" icon="fa-calendar-alt" style="color: brown; {{styleCalButton}}"></ons-button>
+                        </div>
+                    </ons-toolbar>
+                    <ons-gesture-detector>
+                        <ons-card style="min-height: 300px">
+                            <div class="content" style="height: 100%;">
+
+                                <table style="width: 100%; vertical-align: top">
+                                    <tr>
+                                        <td ng-repeat="name in settDay track by $index" class="calendar_block calendar_header" style="{{(typeCalendar != 'giorno') ? 'width:' + (90/7) + '% !important' : ''}}">{{name}}</td>
+                                    </tr>
+
+                                    <tr style="{{altezzaRigaCalendario}}; vertical-align: top;" ng-repeat="s in calRender track by $index">
+                                        <td ng-repeat="d in s track by $index" class="calendar_block {{($index > 4) ? 'calendar_weekendDay' : 'calendar_ferialDay'}} {{(d.isToday) ? 'calendar_today' : ''}}" style="text-align: center; {{(typeCalendar != 'giorno') ? 'width:' + (90/7) + '% !important;' : ''}}">
+                                            <div class="calendar_dayHeader"><span style="{{((typeCalendar != 'giorno') && (isPhone)) ? 'font-size: 0.7em !important' : ''}}">{{d.label}}</span></div>
+                                            <ons-list tappable ng-show="typeCalendar != 'mese'">
+                                                <ons-list-item ng-repeat="e in eventi[d.full] track by $index" ng-click="ctrl.ajaxLoadNota(e)" modifier="inset" style="cursor: pointer">
+                                                    <span class="list-item__title">{{e.start}} - {{e.end}}</span>
+                                                    <span class="list-item__subtitle">{{e.title}}</span>
+                                                </ons-list-item>
+                                            </ons-list>
+                                            <div ng-show="(typeCalendar == 'mese') && (eventi[d.full].length>0)" ng-click="ctrl.changeViewOnDay(d.full)" style="color: red; margin-top: 15px; cursor: pointer;"><b>{{eventi[d.full].length}} </b><ons-icon icon="fa-comment-medical"></ons-icon>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+
+                        </ons-card>
+                    </ons-gesture-detector>
+
+                    <script>
+                        document.addEventListener('swiperight', function(event) {
+                            console.log('swr');
+                            if (isPageSwipable) {
+                                console.log('INDIETRO');
+                                document.getElementById('cal-butt-left').click();
+                            }
+                        });
+                        document.addEventListener('swipeleft', function(event) {
+                            console.log('swl');
+                            if (isPageSwipable) {
+                                console.log('AVANTI');
+                                document.getElementById('cal-butt-right').click();
+                            }
+                        });
+                    </script>
+
+                </ons-page>
+            </template>
+
+            <template id="anagrafica.html">
+                <ons-page id="anagrafica" style="text-align: center;" ons-show="ctrl.loadAnagrafica()">
+                    <ons-toolbar>
+                        <div class="center">
+                            <div style="text-align: center; margin: 7px;">
+                                <ons-search-input style="height: 100%; width: 100%; text-align: center" placeholder="Cerca Cliente" ng-change="ctrl.filterAnag(cliFind)" ng-model="cliFind"></ons-search-input>
+                            </div>
+                        </div>
+                    </ons-toolbar>
+                    <ons-progress-circular indeterminate ng-show="progressNotif"></ons-progress-circular>
+                    <ons-list tappable>
+                        <ons-list-item ng-repeat="n in listaAnag" ng-click="ctrl.anagraficaManager(n)">
+                            <div class="left"><ons-icon icon="fa-user-tie" class="list-item__icon"></ons-icon></div>
+                            <div class="center">{{n.nome}} {{n.cognome}}</div>
+                        </ons-list-item>
+                    </ons-list>
+                </ons-page>
+            </template>
+
+            <template id="trattamenti.html">
+                <ons-page id="trattamenti" style="text-align: center;" ons-show="ctrl.loadTrattamenti('$$$$$')">
+                    <ons-toolbar>
+                        <div class="center">
+                            <div style="text-align: center; margin: 7px;">
+                                <ons-search-input style="height: 100%; width: 100%; text-align: center" placeholder="Cerca Trattamento" ng-change="ctrl.filterTratt(tratFind)" ng-model="tratFind"></ons-search-input>
+                            </div>
+                        </div>
+                    </ons-toolbar>
+                    <ons-progress-circular indeterminate ng-show="progressNotif"></ons-progress-circular>
+                    <ons-list tappable>
+                        <ons-list-item ng-repeat="t in listaTratt" ng-click="ctrl.trattamentiManager(t)">
+                            <div class="left"><ons-icon icon="fa-allergies" class="list-item__icon"></ons-icon></div>
+                            <div class="center">
+                                <span class="list-item__title">{{t.descrizione}}</span>
+                                <span class="list-item__subtitle">Dettagli</span>
+                            </div>
+                        </ons-list-item>
+                    </ons-list>
+                </ons-page>
+            </template>
+
+            <template id="anag-manager.html">
+                <ons-page ons-show="ctrl.loadTrattamenti(fakeCli.id)">
+                    <ons-toolbar>
+                        <div class="left">
+                            <ons-back-button></ons-back-button>
+                        </div>
+                        <div class="center">
+                            {{applicationName}}
+                        </div>
+                    </ons-toolbar>
+                    <ons-list>
+                        <ons-list-title><h2 style="text-align: center;">{{ ((fakeCli.ngact == 'PUT') ? 'MODIFICA' : 'AGGIUNGI' )}}  CLIENTE</h2></ons-list-title>
+                    </ons-list>
+                    <div style="margin: 10px; padding: 10px;">
+                        <ons-row style="margin: 10px;">
+                            <ons-col>Nome</ons-col>
+                            <ons-col>
+                                <ons-input modifier="underbar" placeholder="Nome" float ng-model="fakeCli.nome"></ons-input>
+                            </ons-col>
+                        </ons-row>
+                        <ons-row style="margin: 10px;">
+                            <ons-col>Cognome</ons-col>
+                            <ons-col><ons-input modifier="underbar" placeholder="Cognome" float ng-model="fakeCli.cognome"></ons-input>
+                            </ons-col>
+                        </ons-row>
+                        <div ng-if="fakeCli.ngact == 'PUT'">
+                            <ons-list >
+                                <ons-list-header style="padding: 0px !important">
+                                    <ons-toolbar-button ng-click="ctrl.addToDb('TrattamentiPers')" icon="fa-plus" style="margin-right: 15px;"></ons-toolbar-button>
+                                    Trattamenti Personalizzati:</ons-list-header>
+                                <ons-list-item ng-repeat="t in BEtrattAll" ng-click="ctrl.trattamentiManager(t)">
+                                    <div class="left"><ons-icon icon="fa-allergies" class="list-item__icon"></ons-icon></div>
+                                    <div class="center">
+                                        <span class="list-item__title">{{t.descrizione}}</span>
+                                        <span class="list-item__subtitle">Dettagli</span>
+                                    </div>
                                 </ons-list-item>
                             </ons-list>
                         </div>
-                    </ons-card>
-                </div>
-            </ons-page>
-        </template>
+                    </div>
+                    <div style="text-align: center;">
+                        <p ng-if="fakeCli.ngact == 'POST'">
+                            <ons-button style="display: inline-block;  max-width: 350px; margin:10px;" modifier="large" ng-click="ctrl.addAnagrafica(fakeCli)" icon="fa-save"> AGGIUNGI</ons-button>
+                        </p>
+                        <p ng-if="fakeCli.ngact == 'PUT'">
+                            <ons-button style="display: inline-block;  max-width: 350px; margin:10px;" modifier="large"  ng-click="ctrl.updateAnagrafica(fakeCli)" icon="fa-save"> SALVA</ons-button>
+                            <ons-button style="display: inline-block;  max-width: 350px; margin:10px; background-color: red" modifier="large" ng-click="ctrl.delAnagrafica(fakeCli)" icon="fa-trash"> ELIMINA</ons-button>
+                        </p>
+                    </div>
+                </ons-page>
+            </template>
 
-        <script>
+            <template id="tratt-manager.html">
+                <ons-page ons-show="ctrl.loadTrattamentiDropDown(fakeCli.id)">
+                    <ons-toolbar>
+                        <div class="left">
+                            <ons-back-button></ons-back-button>
+                        </div>
+                        <div class="center">
+                            {{applicationName}}
+                        </div>
+                    </ons-toolbar>
+                    <ons-list>
+                        <ons-list-title><h2 style="text-align: center;">{{ ((fakeTratt.ngact == 'PUT') ? 'MODIFICA' : 'AGGIUNGI' )}}  
+                            TRATTAMENTO {{(fakeTratt.cliente != '$$$$$') ? 'PERSONALIZZATO' : ''}}</h2></ons-list-title>
+                    </ons-list>
+                    <div style="margin: 10px; padding: 10px;">
+                        <ons-row style="margin: 10px;">
+                            <ons-col>Descrizione</ons-col>
+                            <ons-col>
+                                <ons-input ng-show="((fakeTratt.cliente != '$$$$$') && (fakeTratt.ngact == 'PUT'))" modifier="underbar" placeholder="Descrizione" float ng-model="fakeTratt.descrizione" readonly></ons-input>
 
-            ons.bootstrap()
-                .controller('MainController', function($scope, $http) {
+                                <ons-select ng-model="fakeTratt.descrizione" ng-show="((fakeTratt.cliente != '$$$$$') && (fakeTratt.ngact == 'POST'))" >
+                                    <option ng-repeat="t in BEtrattAllDD" value="{{t}}">{{t}}</option>
+                                </ons-select>
 
-                $scope.progressNotif = true;
-                $scope.thisPage = 'Home';
+                                <ons-input ng-show="(fakeTratt.cliente == '$$$$$')" modifier="underbar" placeholder="Descrizione" float ng-model="fakeTratt.descrizione"></ons-input>
+                            </ons-col>
+                        </ons-row>
+                        <ons-row style="margin: 10px;">
+                            <ons-col>Prezzo Base</ons-col>
+                            <ons-col>
+                                <ons-input modifier="underbar" placeholder="euro..." float ng-model="fakeTratt.prezzo" type="number" min="0"></ons-input>
+                            </ons-col>
+                        </ons-row>
+                        <ons-row style="margin: 10px;">
+                            <ons-col>Durata in Minuti</ons-col>
+                            <ons-col>
+                                <ons-select id="durhh" ng-model="durataOreChecker">
+                                    <option value="0" >00</option>
+                                    <option value="1" >01</option>
+                                    <option value="2" >02</option>
+                                    <option value="3" >03</option>
+                                    <option value="4" >04</option>
+                                    <option value="5" >05</option>
+                                    <option value="6" >06</option>
+                                    <option value="7" >07</option>
+                                    <option value="8" >08</option>
+                                    <option value="9" >09</option>
+                                    <option value="10">10</option>
+                                </ons-select> : 
+                                <ons-select id="durmm">
+                                    <option value="0"  ng-selected="(ctrl.onlyMinSel(fakeTratt.minuti)==0) && (fakeTratt.ngact != 'POST')" ng-show="durataOreChecker>0">00</option>
+                                    <option value="5"  ng-selected="(ctrl.onlyMinSel(fakeTratt.minuti)==5) || ((durataOreChecker == 0) && (fakeTratt.ngact == 'POST'))">05 </option>
+                                    <option value="10" ng-selected="ctrl.onlyMinSel(fakeTratt.minuti)==10">10</option>
+                                    <option value="15" ng-selected="ctrl.onlyMinSel(fakeTratt.minuti)==15">15</option>
+                                    <option value="20" ng-selected="ctrl.onlyMinSel(fakeTratt.minuti)==20">20</option>
+                                    <option value="25" ng-selected="ctrl.onlyMinSel(fakeTratt.minuti)==25">25</option>
+                                    <option value="30" ng-selected="ctrl.onlyMinSel(fakeTratt.minuti)==30">30</option>
+                                    <option value="35" ng-selected="ctrl.onlyMinSel(fakeTratt.minuti)==35">35</option>
+                                    <option value="40" ng-selected="ctrl.onlyMinSel(fakeTratt.minuti)==40">40</option>
+                                    <option value="45" ng-selected="ctrl.onlyMinSel(fakeTratt.minuti)==45">45</option>
+                                    <option value="50" ng-selected="ctrl.onlyMinSel(fakeTratt.minuti)==50">50</option>
+                                    <option value="55" ng-selected="ctrl.onlyMinSel(fakeTratt.minuti)==55">55</option>
+                                </ons-select>
+                            </ons-col>
+                        </ons-row>
+                    </div>
+                    <div style="text-align: center;">
+                        <p ng-if="fakeTratt.ngact == 'POST'">
+                            <ons-button style="display: inline-block;  max-width: 350px; margin:10px;" modifier="large" ng-click="ctrl.addTrattamenti(fakeTratt)" icon="fa-save"> AGGIUNGI</ons-button>
+                        </p>
+                        <p ng-if="fakeTratt.ngact == 'PUT'">
+                            <ons-button style="display: inline-block;  max-width: 350px; margin:10px;" modifier="large" ng-click="ctrl.updateTrattamenti(fakeTratt)" icon="fa-save"> SALVA</ons-button>
+                            <ons-button style="display: inline-block;  max-width: 350px; margin:10px; background-color: red" modifier="large" ng-click="ctrl.delTrattamenti(fakeTratt)" icon="fa-trash"> ELIMINA</ons-button>
+                        </p>
+                    </div>
+                </ons-page>
+            </template>
 
-                $scope.fakeCli = null;
-                $scope.fakeTratt = null;
+            <template id="appuntamenti-manager-p1.html">
+                <ons-page ons-show="ctrl.loadAnagrafica()">
+                    <ons-toolbar>
+                        <div class="left">
+                            <ons-back-button></ons-back-button>
+                        </div>
+                        <div class="center">
+                            {{applicationName}}
+                        </div>
+                    </ons-toolbar>
+                    <ons-progress-circular indeterminate ng-show="progressNotif"></ons-progress-circular>
+                    <ons-list tappable>
+                        <ons-list-title><h2 style="text-align: center;">AGGIUNGI APPUNTAMENTO</h2></ons-list-title>
+                        <ons-list-header>
+                            <ons-search-input style="height: 100%; width: 100%; margin-left: -8px; text-align: center" placeholder="Cerca Cliente" ng-change="ctrl.filterAnag(cliFind)" ng-model="cliFind"></ons-search-input>
+                        </ons-list-header>
+                        <ons-list-item ng-repeat="n in listaAnag" ng-click="ctrl.appuntamentoP2(n._id.$oid, n.nome + ' ' + n.cognome)">
+                            <div class="left"><ons-icon icon="fa-user-tie" class="list-item__icon"></ons-icon></div>
+                            <div class="center">{{n.nome}} {{n.cognome}}</div>
+                        </ons-list-item>
+                    </ons-list>
 
-                // ajax per recupero note appuntamento
-                $scope.loadNota = function(idNota){
-                    ajaxLoadNota(idNota);
-                }
+                </ons-page>
+            </template>
 
+            <template id="appuntamenti-manager-p2.html">
+                <ons-page ons-show="ctrl.loadTrattamentiToAdd()">
+                    <ons-toolbar>
+                        <div class="left">
+                            <ons-back-button></ons-back-button>
+                        </div>
+                        <div class="center">
+                            {{applicationName}}
+                        </div>
+                        <div class="right">
+                            <ons-toolbar-button ng-click="ctrl.appuntamentoP3()">AVANTI</ons-toolbar-button>
+                        </div>
+                    </ons-toolbar>
+                    <ons-progress-circular indeterminate ng-show="progressNotif"></ons-progress-circular>
+                    <ons-list tappable>
+                        <ons-list-title><h2 style="text-align: center;">{{fakeApp.title}}</h2></ons-list-title>
+                        <ons-list-header>Trattamenti frequenti</ons-list-header>
+                        <ons-list-item ng-repeat="t in listaTrattApp1 track by $index">
+                            <div class="left"><label>
+                                <ons-checkbox input-id="check1_{{$index}}" ng-model="t.selected"></ons-checkbox>
+                                </label>
+                            </div>
+                            <div class="center"><label for="check1_{{$index}}" class="center">
+                                {{t.descrizione}}
+                                </label>
+                            </div>
+                        </ons-list-item>
+                        <ons-list-header>Altri Trattamenti</ons-list-header>
+                        <ons-list-item ng-repeat="t in listaTrattApp2 track by $index">
+                            <div class="left"><label>
+                                <ons-checkbox input-id="check2_{{$index}}" ng-model="t.selected"></ons-checkbox>
+                                </label>
+                            </div>
+                            <div class="center"><label for="check2_{{$index}}" class="center">
+                                {{t.descrizione}}
+                                </label>
+                            </div>
+                        </ons-list-item>
+                    </ons-list>
+                </ons-page>
+            </template>
 
-                // CONTROLLER FUNCTIONS
+            <template id="appuntamenti-manager-p3.html">
+                <ons-page>
+                    <ons-toolbar>
+                        <div class="left">
+                            <ons-back-button></ons-back-button>
+                        </div>
+                        <div class="center">
+                            {{applicationName}}
+                        </div>
+                    </ons-toolbar>
 
-                // ajax per recupero note appuntamento
-                this.loadAnagrafica = function(){
-                    ajaxLoadAnagrafica();
-                }
+                    <ons-list-title><h2 style="text-align: center;">{{fakeApp.title}}</h2></ons-list-title>
+                    <ons-row style="margin: 10px;">
+                        <ons-col>Data Appuntamento</ons-col>
+                        <ons-col>
+                            <ons-input modifier="underbar" type="date" ng-model="fakeApp.data"></ons-input>
+                            <br/>
+                            <ons-input modifier="underbar" placeholder="Data" ng-value="formatStringData(fakeApp.data)" readonly></ons-input>
+                        </ons-col>
+                    </ons-row>
+                    <ons-row style="margin: 10px;">
+                        <ons-col>Orario Appuntamento</ons-col>
+                        <ons-col>
+                            <ons-select ng-model="fakeHH" id="hh1">
+                                <option ng-repeat="t in oredisp" ng-value="t" ng-selected="$index==0">{{t}}</option>
+                            </ons-select> : 
+                            <ons-select ng-model="fakeMM" id="mm1">
+                                <option ng-repeat="t in mindisp" ng-value="t" ng-selected="$index==0">{{t}}</option>
+                            </ons-select>
+                        </ons-col>
+                    </ons-row>
+                    <ons-row style="margin: 10px;">
+                        <ons-col>Orario Fine Appuntamento</ons-col>
+                        <ons-col>                      
+                            <ons-select ng-model="fakeEH" id="hh2">
+                                <option ng-repeat="t in oredisp" ng-value="t" ng-selected="(addZeroSc(((((fakeHH*60 - -fakeMM) - -fakeApp.minuti) - (((fakeHH*60 - -fakeMM) - -fakeApp.minuti) % 60)) / 60 )) == t)">{{t}}</option>
+                            </ons-select> : 
+                            <ons-select ng-model="fakeEM" id="mm2">
+                                <option ng-repeat="t in mindisp" ng-value="t" ng-selected="(addZeroSc((((fakeHH*60 - -fakeMM) - -fakeApp.minuti) % 60)) == t)">{{t}}</option>
+                            </ons-select>
+                        </ons-col>
+                    </ons-row>
+                    <ons-row style="margin: 20px 10px 20px 10px;">
+                        <ons-col>Riepilogo Trattamenti</ons-col>
+                        <ons-col>                      
+                            {{getListaTratt()}}
+                        </ons-col>
+                    </ons-row>
+                    <ons-row style="margin: 10px;">
+                        <ons-col>Totale</ons-col>
+                        <ons-col>
+                            <ons-input modifier="underbar" placeholder="Nome" float ng-value="fakeApp.prezzo + ' €'" readonly></ons-input>
+                        </ons-col>
+                    </ons-row>
 
-                // TRATTAMENTI
-                {
-                    // cancellazione
-                    this.delTrattamenti = function(idt){
-                        ajaxDelTrattamenti(idt);
+                    <div style="text-align: center;">
+                        <p>
+                            <ons-button style="display: inline-block;  max-width: 350px; margin:10px;" modifier="large" ng-click="ctrl.confirmEvento()" icon="fa-save"> CONFERMA APPUNTAMENTO</ons-button>
+                        </p>
+                    </div>
+                </ons-page>
+            </template>
+
+            <template id="view-nota.html">
+                <ons-page>
+                    <ons-toolbar>
+                        <div class="left">
+                            <ons-back-button></ons-back-button>
+                        </div>
+                        <div class="center">
+                            {{applicationName}}
+                        </div>
+                    </ons-toolbar>
+                    <div style="text-align: center">
+                        <ons-card>
+                            <div class="title">
+                                <ons-row>
+                                    <ons-col><div style="text-align: left;">Cliente: {{nota.cliente}}</div></ons-col>
+                                    <ons-col><div style="text-align: right;"><span>Totale: {{nota.prezzo}} </span><ons-icon icon="fa-euro-sign"></ons-icon></div></ons-col>
+                                </ons-row>
+                            </div>
+                            <div class="content">
+                                <ons-list>
+                                    <ons-list-item ng-repeat="t in ntratt">
+                                        <div class="left"><ons-icon icon="fa-allergies" size="20px"></ons-icon></div>
+                                        <div class="center">{{t}}</div>
+                                    </ons-list-item>
+                                </ons-list>
+                                <p style="text-align: center;">
+                                    <ons-button style="display: inline-block;  max-width: 350px; margin:10px; background-color: red" modifier="large" ng-click="ctrl.delAppuntamenti(actualNotaId)" icon="fa-trash"> ELIMINA APPUNTAMENTO</ons-button>
+                                </p>
+                            </div>
+                        </ons-card>
+                    </div>
+                </ons-page>
+            </template>
+
+            <script>
+
+                var isPageSwipable = true;
+
+                var debb = null;
+
+                ons.bootstrap()
+                    .controller('MainController', function($scope, $http) {
+
+                    // SETTINGS
+                    {
+
+                        $scope.auth = true;
+
+                        // APP-NAME
+                        $scope.applicationName = 'LK Nails & Beauty';
+
+                        // SPINNER LOADER
+                        $scope.progressNotif = true;
+
+                        // SETTING ORE
+                        $scope.oredisp = ['09','10','11','12','13','14','15','16','17','18','19','20'];
+                        $scope.mindisp = ['00','05','10','15','20','25','30','35','40','45','50','55'];
+                        $scope.fakeHH = '09';
+                        $scope.fakeMM = '00';
+
+                        // TRACKER PAGE
+                        $scope.thisPage = 'Home';
+
+                        // MODELS
+                        $scope.fakeCli = null;
+                        $scope.fakeTratt = null;
+                        $scope.fakeApp = null;
+                        $scope.actualNotaId = null;
+
+                        // VERIFICA DISPOSITIVO
+                        $scope.isPhone = (ons.platform.isAndroidPhone() || ons.platform.isIPhone() || ons.platform.isIPhoneX() || ons.platform.isWP() || ons.platform.isBlackBerry());
+
+                        // mongoDB API secret key
+                        var api='XUImABxDE9BJK7bPyOXC6A0REfwZ0vVg';
+
                     }
-                    
-                    // modifica
-                    this.updateTrattamenti = function(idt){
-                        ajaxUpdateTrattamenti(idt);
-                    }
-                    
-                    // aggiunta
-                    this.addTrattamenti = function(idt){
-                        ajaxAddTrattamenti(idt);
+
+
+                    // ajax per recupero note appuntamento
+                    $scope.loadNota = function(evs){
+                        ajaxLoadNota(evs);
                     }
 
-                    // caricamento
-                    this.loadTrattamenti = function(){
-                        ajaxLoadTrattamenti();
+
+                    //https://api.mlab.com/api/1/databases/my-db/collections/my-coll/4e7315a65e4ce91f885b7dde
+
+                    // CONTROLLER TRATTAMENTI:
+                    {
+
+                        this.loadTrattamentiToAdd = function(){
+                            var clienteTarget = $scope.fakeApp.idcli;
+                            $scope.listaTrattApp1 = null;
+                            $scope.listaTrattApp2 = null;
+                            $scope.progressNotif = true;
+                            var uu = makeUri('trattamenti', 'q={"cliente":"' + clienteTarget + '"}&s={"descrizione": 1}');
+                            console.log('URL: ' + uu);
+                            $http(
+                                {
+                                    method : "GET",
+                                    url : uu
+                                }
+                            ).then(
+                                function mySuccess(response) {
+                                    var r1 = response.data;
+                                    var ar1 = Array();
+                                    for (var i=0; i<r1.length; ++i){
+                                        ar1.push(r1[i].descrizione);
+                                    }
+                                    $http(
+                                        {
+                                            method : "GET",
+                                            url : makeUri('trattamenti', 'q={"cliente":"$$$$$"}&s={"descrizione": 1}')
+                                        }
+                                    ).then(
+                                        function mySuccess(res) {
+                                            console.log(res.data);
+                                            var r2 = res.data;
+                                            var r3 = Array();
+                                            for (var i=0; i<r2.length; ++i){
+                                                if (ar1.indexOf(r2[i].descrizione)<0){
+                                                    console.log(r2[i]);
+                                                    r3.push(r2[i]);
+                                                }
+                                            }
+                                            $scope.listaTrattApp1 = r1;
+                                            $scope.listaTrattApp2 = r3;
+                                            $scope.progressNotif = false;
+                                        }
+                                    );
+                                }
+                            );
+                        }
+
+                        this.loadTrattamentiDropDown = function(clienteTarget){
+                            if (($scope.fakeTratt.cliente == '') || ($scope.fakeTratt.cliente == null) || (typeof $scope.fakeTratt.cliente == 'undefined')){
+                                $scope.fakeTratt.cliente = '$$$$$';
+                                $scope.durataOreChecker = 0;
+                            } else {
+                                $scope.durataOreChecker = this.divIntMin($scope.fakeTratt.minuti);
+                            }
+                            $scope.BEtrattAllDD = null;
+                            $scope.progressNotif = true;
+                            var uu = makeUri('trattamenti', 'q={"cliente":"$$$$$"}&s={"descrizione": 1}');
+                            console.log('URL: ' + uu);
+                            $http(
+                                {
+                                    method : "GET",
+                                    url : uu
+                                }
+                            ).then(
+                                function mySuccess(response) {
+                                    var r1 = response.data;
+                                    var ar1 = Array();
+                                    for (var i=0; i<r1.length; ++i){
+                                        ar1.push(r1[i].descrizione);
+                                    }
+                                    $http(
+                                        {
+                                            method : "GET",
+                                            url : makeUri('trattamenti', 'q={"cliente":"' + clienteTarget + '"}&s={"descrizione": 1}')
+                                        }
+                                    ).then(
+                                        function mySuccess(res) {
+                                            console.log(clienteTarget);
+                                            console.log(ar1);
+                                            console.log(res.data);
+                                            var r2 = res.data;
+                                            var ar2 = Array();
+                                            var ardef = Array();
+                                            for (var i=0; i<r2.length; ++i){
+                                                ar2.push(r2[i].descrizione);
+                                            }
+                                            for (var i=0; i<r1.length; ++i){
+                                                if (ar2.indexOf(ar1[i])<0){
+                                                    console.log(ar1[i]);
+                                                    ardef.push(ar1[i]);
+                                                }
+                                            }
+
+                                            $scope.BEtrattAllDD = ardef;
+                                            $scope.progressNotif = false;
+                                        }
+                                    );
+                                }
+                            );
+                        }
+
+                        this.loadTrattamenti = function(clienteTarget){
+                            $scope.listaTratt = null;
+                            $scope.BEtrattAll = null;
+                            $scope.progressNotif = true;
+                            var uu = makeUri('trattamenti', 'q={"cliente":"' + clienteTarget + '"}&s={"descrizione": 1}');
+                            console.log('URL: ' + uu);
+                            $http(
+                                {
+                                    method : "GET",
+                                    url : uu
+                                }
+                            ).then(
+                                function mySuccess(response) {
+                                    console.log(response);
+                                    $scope.listaTratt = response.data;
+                                    $scope.BEtrattAll = response.data;
+                                    $scope.progressNotif = false;
+                                }
+                            );
+                        }
+
+                        this.delTrattamenti = function(idt){
+                            var uu = makeUri('trattamenti/' + idt.id, null);
+                            console.log('URL: ' + uu);
+                            $http(
+                                {
+                                    method : "DELETE",
+                                    url : uu
+                                }
+                            ).then(
+                                function mySuccess(response) {
+                                    console.log('ELIMINATO: ' + response);
+                                    makeToast('Trattamento ' + idt.descrizione + ' eliminato!');
+                                    nav.popPage();
+                                }
+                            );
+                        }
+
+                        this.updateTrattamenti = function(idt){
+                            var uu = makeUri('trattamenti/' + idt.id, null);
+                            console.log('URL: ' + uu);
+                            $http(
+                                {
+                                    method : "PUT",
+                                    url : uu,
+                                    data : {
+                                        cliente: idt.cliente,
+                                        descrizione: idt.descrizione,
+                                        prezzo: idt.prezzo,
+                                        minuti: this.calcMin()
+                                    }
+                                }
+                            ).then(
+                                function mySuccess(response) {
+                                    console.log('MODIFICATO: ' + response);
+                                    makeToast('Trattamento ' + idt.descrizione + ' modificato!');
+                                    nav.popPage();
+                                }
+                            );
+                        }
+
+                        this.addTrattamenti = function(idt){
+                            var uu = makeUri('trattamenti', null);
+                            console.log('URL: ' + uu);
+                            $http(
+                                {
+                                    method : "POST",
+                                    url : uu,
+                                    data : {
+                                        cliente: idt.cliente,
+                                        descrizione: idt.descrizione,
+                                        prezzo: idt.prezzo,
+                                        minuti: this.calcMin()
+                                    }
+                                }
+                            ).then(
+                                function mySuccess(response) {
+                                    console.log('AGGIUNTO: ' + response);
+                                    makeToast('Trattamento ' + idt.descrizione + ' aggiunto!');
+                                    nav.popPage();
+                                }
+                            );
+                        }
+
+                        this.calcMin = function(){
+                            var h = document.getElementById('durhh').value;
+                            var m = document.getElementById('durmm').value;
+                            return h*60 + m*1;
+                        }
+
+                        this.divIntMin = function(val){
+                            return (val - (val % 60)) / 60;
+                        }
+
+                        this.onlyMinSel = function(val){
+                            return val % 60;
+                        }
+
                     }
-                }
 
-                //https://api.mlab.com/api/1/databases/my-db/collections/my-coll/4e7315a65e4ce91f885b7dde
-
-                // AJAX SERVICES
-
-
-                // TRATTAMENTI:
-
-                function ajaxLoadTrattamenti(idt){
-                    $scope.progressNotif = true;
-                    var uu = makeUri('trattamenti', 's={"descrizione": 1}');
-                    console.log('URL: ' + uu);
-                    $http(
-                        {
-                            method : "GET",
-                            url : uu
+                    // CONTROLLER ANAGRAFICA
+                    {
+                        this.loadAnagrafica = function(){
+                            $scope.progressNotif = true;
+                            $scope.listaAnag = null;
+                            $scope.BEanagAll = null;
+                            var uu = makeUri('clienti', 's={"nome": 1, "cognome": 1}');
+                            console.log('URL: ' + uu);
+                            $http(
+                                {
+                                    method : "GET",
+                                    url : uu
+                                }
+                            ).then(
+                                function mySuccess(response) {
+                                    console.log(response);
+                                    $scope.listaAnag = response.data;
+                                    $scope.BEanagAll = response.data;
+                                    $scope.progressNotif = false;
+                                }
+                            );
                         }
-                    ).then(
-                        function mySuccess(response) {
-                            console.log(response);
-                            $scope.listaTratt = response.data;
-                            $scope.BEtrattAll = response.data;
-                            $scope.progressNotif = false;
-                        }
-                    );
-                }
 
-                function ajaxDelTrattamenti(idt){
-                    var uu = makeUri('trattamenti/' + idt.id, null);
-                    console.log('URL: ' + uu);
-                    $http(
-                        {
-                            method : "DELETE",
-                            url : uu
+                        this.delAnagrafica = function(idt){
+                            var uu = makeUri('clienti/' + idt.id, null);
+                            console.log('URL: ' + uu);
+                            $http(
+                                {
+                                    method : "DELETE",
+                                    url : uu
+                                }
+                            ).then(
+                                function mySuccess(response) {
+                                    console.log('ELIMINATO: ' + response);
+                                    makeToast('Cliente ' + idt.nome + ' ' + idt.cognome + ' eliminato!');
+                                    nav.popPage();
+                                }
+                            );
                         }
-                    ).then(
-                        function mySuccess(response) {
-                            console.log('ELIMINATO: ' + response);
-                            makeToast('Trattamento ' + idt.descrizione + ' eliminato!');
-                            ajaxLoadTrattamenti();
-                            nav.popPage();
-                        }
-                    );
-                }
 
-                function ajaxUpdateTrattamenti(idt){
-                    var uu = makeUri('trattamenti/' + idt.id, null);
-                    console.log('URL: ' + uu);
-                    $http(
-                        {
-                            method : "PUT",
-                            url : uu,
-                            data : {
-                                descrizione: idt.descrizione,
-                                prezzo: idt.prezzo,
-                                minuti: idt.minuti
+                        this.updateAnagrafica = function(idt){
+                            var uu = makeUri('clienti/' + idt.id, null);
+                            console.log('URL: ' + uu);
+                            $http(
+                                {
+                                    method : "PUT",
+                                    url : uu,
+                                    data : {
+                                        nome: idt.nome,
+                                        cognome: idt.cognome,
+                                        promozioni: idt.promozioni
+                                    }
+                                }
+                            ).then(
+                                function mySuccess(response) {
+                                    console.log('MODIFICATO: ' + response);
+                                    makeToast('Cliente ' + idt.nome + ' ' + idt.cognome + ' modificato!');
+                                    nav.popPage();
+                                }
+                            );
+                        }
+
+                        this.addAnagrafica = function(idt){
+                            var uu = makeUri('clienti', null);
+                            console.log('URL: ' + uu);
+                            $http(
+                                {
+                                    method : "POST",
+                                    url : uu,
+                                    data : {
+                                        nome: idt.nome,
+                                        cognome: idt.cognome
+                                    }
+                                }
+                            ).then(
+                                function mySuccess(response) {
+                                    console.log('AGGIUNTO: ' + response);
+                                    makeToast('Cliente ' + idt.nome + ' ' + idt.cognome + ' aggiunto!');
+                                    nav.popPage();
+                                }
+                            );
+                        }
+                    }
+
+                    // CONTROLLER APPUNTAMENTI
+                    {
+
+                        this.delAppuntamenti = function(idt){
+                            var uu = makeUri('eventi/' + idt, null);
+                            console.log('URL: ' + uu);
+                            $http(
+                                {
+                                    method : "DELETE",
+                                    url : uu
+                                }
+                            ).then(
+                                function mySuccess(response) {
+                                    console.log('ELIMINATO: ' + response);
+                                    makeToast('Cliente ' + idt.nome + ' ' + idt.cognome + ' eliminato!');
+                                    nav.popPage();
+                                }
+                            );
+                        }
+
+                        this.updateAppuntamenti = function(idt){
+                            var uu = makeUri('eventi/' + idt.id, null);
+                            console.log('URL: ' + uu);
+                            $http(
+                                {
+                                    method : "PUT",
+                                    url : uu,
+                                    data : {
+                                        nome: idt.nome,
+                                        cognome: idt.cognome,
+                                        promozioni: idt.promozioni
+                                    }
+                                }
+                            ).then(
+                                function mySuccess(response) {
+                                    console.log('MODIFICATO: ' + response);
+                                    makeToast('Cliente ' + idt.nome + ' ' + idt.cognome + ' modificato!');
+                                    nav.popPage();
+                                }
+                            );
+                        }
+
+                        this.addAppuntamenti = function(idt){
+                            var uu = makeUri('note', null);
+                            console.log('URL: ' + uu);
+                            $http(
+                                {
+                                    method : "POST",
+                                    url : uu,
+                                    data : {
+                                        cliente: idt.title,
+                                        trattamenti: idt.trattamenti,
+                                        prezzo: idt.prezzo
+                                    }
+                                }
+                            ).then(
+                                function mySuccess(response) {
+                                    $http(
+                                        {
+                                            method : "POST",
+                                            url : makeUri('eventi', null),
+                                            data : {
+                                                title: idt.title,
+                                                data: idt.data,
+                                                start: idt.start,
+                                                minuti: idt.minuti,
+                                                url: response.data._id.$oid
+                                            }
+                                        }
+                                    ).then(
+                                        function mySuccess(res) {
+                                            console.log('AGGIUNTO: ' + response);
+                                            debb = response;
+                                            nav.bringPageTop(0);
+                                        }
+                                    );
+                                }
+                            );
+                        }
+
+                        this.confirmEvento = function(){
+                            var h1 = document.getElementById('hh1').value;
+                            var h2 = document.getElementById('hh2').value;
+                            var m1 = document.getElementById('mm1').value;
+                            var m2 = document.getElementById('mm2').value;
+
+                            var mH = (h2 - h1) * 60;
+                            var mM = m2 - m1;
+                            var minuti = mH + mM;
+                            if(minuti < 5){
+                                ons.notification.alert('Orario non valido!');
+                            } else {
+                                $scope.fakeApp.minuti = minuti;
+                                $scope.fakeApp.start = h1 + ':' + m1;
+                                console.log($scope.fakeApp);
+                                this.addAppuntamenti($scope.fakeApp);
                             }
                         }
-                    ).then(
-                        function mySuccess(response) {
-                            console.log('MODIFICATO: ' + response);
-                            makeToast('Trattamento ' + idt.descrizione + ' modificato!');
-                            ajaxLoadTrattamenti();
-                            nav.popPage();
-                        }
-                    );
-                }
 
-                function ajaxAddTrattamenti(idt){
-                    var uu = makeUri('trattamenti', null);
-                    console.log('URL: ' + uu);
-                    $http(
-                        {
-                            method : "POST",
-                            url : uu,
-                            data : {
-                                descrizione: idt.descrizione,
-                                prezzo: idt.prezzo,
-                                minuti: idt.minuti
+
+                    }
+
+                    // NOTA APPUNTAMENTO
+
+                    this.ajaxLoadNota = function(evs){
+                        console.log(evs);
+                        $scope.actualNotaId = evs._id.$oid;
+                        console.log($scope.actualNotaId);
+                        idNota = evs.url;
+                        $scope.progressNotif = true;
+                        var uu = makeUri('note/' + idNota, null);
+                        console.log('URL: ' + uu);
+                        $http(
+                            {
+                                method : "GET",
+                                url : uu
                             }
+                        ).then(
+                            function mySuccess(response) {
+                                console.log(response);
+                                $scope.nota = response.data;
+                                var t = response.data.trattamenti.split(";");
+                                var nt = Array();
+                                for (var i=0; i<t.length-1; ++i)
+                                    nt.push(t[i]);
+                                $scope.ntratt = nt;
+                                $scope.nav.pushPage('view-nota.html');
+                            }
+                        );
+                    }
+
+
+
+                    // FE-VIEW PAGINE DEI FORM
+                    {
+
+                        showFormAnag = function(id, nn, cc, prom, met){
+                            $scope.fakeCli = {
+                                id: id,
+                                nome: nn,
+                                cognome: cc,
+                                promozioni: prom,
+                                ngact: met
+                            };
+                            console.log($scope.fakeCli);
+                            $scope.nav.pushPage('anag-manager.html');
                         }
-                    ).then(
-                        function mySuccess(response) {
-                            console.log('AGGIUNTO: ' + response);
-                            makeToast('Trattamento ' + idt.descrizione + ' aggiunto!');
-                            ajaxLoadTrattamenti();
-                            nav.popPage();
+
+                        showFormTratt = function(id, clii, dd, pp, mm, met){
+                            $scope.fakeTratt = {
+                                id: id,
+                                cliente: clii,
+                                descrizione: dd,
+                                prezzo: pp,
+                                minuti: mm,
+                                ngact: met
+                            };
+                            $scope.nav.pushPage('tratt-manager.html');
                         }
-                    );
-                }
 
-
-                // ANAGRAFICA
-
-                function ajaxLoadAnagrafica(){
-                    $scope.progressNotif = true;
-                    var uu = makeUri('clienti', 's={"nome": 1, "cognome": 1}');
-                    console.log('URL: ' + uu);
-                    $http(
-                        {
-                            method : "GET",
-                            url : uu
+                        showFormApp = function(){
+                            $scope.nav.pushPage('appuntamenti-manager-p1.html');
                         }
-                    ).then(
-                        function mySuccess(response) {
-                            console.log(response);
-                            $scope.listaAnag = response.data;
-                            $scope.BEanagAll = response.data;
-                            $scope.progressNotif = false;
+
+                        this.trattamentiManager = function(tratt){
+                            showFormTratt(tratt._id.$oid, tratt.cliente, tratt.descrizione, tratt.prezzo, tratt.minuti, 'PUT');
                         }
-                    );
-                }
 
-
-                // NOTA APPUNTAMENTO
-
-                function ajaxLoadNota(idNota){
-                    $scope.progressNotif = true;
-                    var uu = makeUri('note/' + idNota, null);
-                    console.log('URL: ' + uu);
-                    $http(
-                        {
-                            method : "GET",
-                            url : uu
+                        this.anagraficaManager = function(anag){
+                            console.log(anag);
+                            showFormAnag(anag._id.$oid, anag.nome, anag.cognome, anag.promozioni, 'PUT');
                         }
-                    ).then(
-                        function mySuccess(response) {
-                            console.log(response);
-                            $scope.nota = response.data;
-                            var t = response.data.trattamenti.split(";");
-                            var nt = Array();
-                            for (var i=0; i<t.length-1; ++i)
-                                nt.push(t[i]);
-                            $scope.ntratt = nt;
-                            $scope.nav.pushPage('view-nota.html');
+
+                        this.appuntamentoP2 = function(cli, tit){
+                            $scope.fakeApp = {idcli: cli, title: tit, data: formatDate($scope.dataSelezionata)};
+                            $scope.nav.pushPage('appuntamenti-manager-p2.html');
+
                         }
-                    );
-                }
+
+                        this.appuntamentoP3 = function(){
+                            console.log($scope.listaTrattApp1);
+                            console.log($scope.listaTrattApp2);
+                            var ttr = '';
+                            var ttp = 0;
+                            var ttm = 0;
+                            for(var i=0; i<$scope.listaTrattApp1.length; ++i)
+                                if (typeof $scope.listaTrattApp1[i].selected != 'undefined')
+                                    if($scope.listaTrattApp1[i].selected){
+                                        console.log($scope.listaTrattApp1[i]);
+                                        ttr += $scope.listaTrattApp1[i].descrizione + ';';
+                                        ttp += $scope.listaTrattApp1[i].prezzo;
+                                        ttm += $scope.listaTrattApp1[i].minuti;
+                                    }
+
+                            for(var i=0; i<$scope.listaTrattApp2.length; ++i)
+                                if (typeof $scope.listaTrattApp2[i].selected != 'undefined')
+                                    if($scope.listaTrattApp2[i].selected){
+                                        console.log($scope.listaTrattApp2[i]);
+                                        ttr += $scope.listaTrattApp2[i].descrizione + ';';
+                                        ttp += $scope.listaTrattApp2[i].prezzo;
+                                        ttm += $scope.listaTrattApp2[i].minuti;
+                                    }
+
+                            $scope.fakeApp.trattamenti = ttr;
+                            $scope.fakeApp.prezzo = ttp;
+                            $scope.fakeApp.minuti = ttm;
+
+                            console.log($scope.fakeApp);
+
+                            $scope.nav.pushPage('appuntamenti-manager-p3.html');
+                            // ng-model="checkapptratt1" value="{{$index}}"
+                        }
+
+                        this.calcolaTempoIpotetico = function(){
+                            var hh = $scope.fakeHH;
+                            var mm = $scope.fakeMM;
+                            var totmin = hh*60 - -mm;
+                            var conAdd = totmin - -$scope.fakeApp.minuti;
+
+                            var aa = conAdd % 60;
+                            var bb = (conAdd - aa)/60;
+
+                            $scope.fakeEH = addZero(bb);
+                            $scope.fakeEM = addZero(aa);
+                            console.log('fine ipotetica: ' + $scope.fakeEH + ':' + $scope.fakeEM);
+                        }
 
 
+                    }
 
-                // FE-VIEW PAGINE DEI FORM
-                {
+                    // ajax per action generica (follow, unfollow, stop)
+                    $scope.doAct = function(act){
+                        $http(
+                            {
+                                method : 'GET',
+                                url : '/' + act,
+                            }
+                        ).then(
+                            function mySuccess(response) {
+                                document.location.reload();
+                            }
+                        );
+                    }
 
-                    showFormAnag = function(nn,cc, met){
-                        $scope.fakeCli = {
-                            username: nn,
-                            password: cc,
-                            ngact: met
+
+                    // FILTRI RICERCHE
+                    {
+
+                        this.filterAnag = function(query){
+                            console.log(query);
+                            var q = query.toUpperCase().trim();
+                            q = q.replace(/ /g, '');
+                            var a = $scope.BEanagAll;
+                            var r = Array();
+                            for (var i=0; i<a.length; ++i){
+                                var x = a[i];
+                                var nc = x.nome.toUpperCase().replace(/ /g, '') + x.cognome.toUpperCase().replace(/ /g, '');
+                                var cn = x.cognome.toUpperCase().replace(/ /g, '') + x.nome.toUpperCase().replace(/ /g, '');
+                                var t1 = nc.toUpperCase().match(q);
+                                var t2 = cn.toUpperCase().match(q);
+                                if ((t1 != null) || (t2 != null))
+                                    r.push(x);
+                            }
+                            $scope.listaAnag = r;
+                        }
+
+                        this.filterTratt = function(query){
+                            console.log(query);
+                            var q = query.toUpperCase().trim();
+                            q = q.replace(/ /g, '');
+                            var a = $scope.BEtrattAll;
+                            var r = Array();
+                            for (var i=0; i<a.length; ++i){
+                                var x = a[i];
+                                var nc = x.descrizione.toUpperCase();
+                                var t = nc.toUpperCase().replace(/ /g, '').match(q);
+                                if (t != null)
+                                    r.push(x);
+                            }
+                            $scope.listaTratt = r;
+                        }
+
+                    }
+
+                    // HELPER
+                    {
+
+                        // utility per creazione alert toast
+                        function makeToast(msg){
+                            //ons.notification.toast({buttonLabels: 'OK', cancelable: true, message: msg});
+                        }
+
+                        // utility per mongoDB rest API URL
+                        function makeUri(path, query){
+                            query = (query==null) ? '' : ((query != '') ? '&' + query : '');
+                            return 'https://api.mlab.com/api/1/databases/heroku_s4qtgnv8/collections/' + path + '?apiKey=' + api + query;
+                        }
+
+                        // utility per formattare la data nel formato YYYY-MM-DD
+                        function formatDate(data){
+                            var s = data.getFullYear() + '-';
+                            s += addZero(data.getMonth()+1) + '-';
+                            s += addZero(data.getDate());
+                            return s;
+                        }
+
+                        // utility per formattare le ore nel formato HH:MM
+                        function addZero(x){
+                            return (x<10) ? '0' + x : x;
+                        }
+
+                        $scope.addZeroSc = function(x){
+                            return (x<10) ? '0' + x : x;
+                        }
+
+                        $scope.formatStringData = function(x){
+                            var a = x.substr(0,4);
+                            var m = x.substr(5,2);
+                            m = meseName[m-1] + ' ';
+                            var g = x.substr(8,2) + ' ';
+                            var td = new Date($scope.fakeApp.data);
+                            var d = settDay[td.getDay()-1] + ', ';
+                            return d + g + m + a;
+                        }
+
+                        $scope.getListaTratt = function(){
+                            var t = $scope.fakeApp.trattamenti.split(';');
+                            var r = '';
+                            for(var i=0; i<t.length-2; ++i)
+                                r += t[i] + ', ';
+                            r += t[t.length-2] + '.';
+                            return r;
+                        }
+
+                        // button add manager
+                        this.addToDb = function(page){
+                            console.log('TEST FOR ADD: ' + page);
+                            if (page=='Anagrafica')
+                                showFormAnag('', '', '', '', 'POST');
+                            if (page=='Trattamenti')
+                                showFormTratt('', '','', '', '', 'POST');
+                            if (page=='TrattamentiPers')
+                                showFormTratt('', $scope.fakeCli.id, '', '', '', 'POST');
+                            if (page=='Home'){
+
+                                showFormApp();
+                                //appuntamenti-manager.html
+                            }
+                            //this.addAppuntamenti();
+
+                            //
+
+                        }
+
+                        // tracker pagina attiva
+                        $scope.namePage = function($event) {
+                            $scope.thisPage = angular.element($event.tabItem).attr('label');
+                            isPageSwipable = ($scope.thisPage == 'Home');
+                            console.log(isPageSwipable);
                         };
-                        $scope.nav.pushPage('anag-manager.html');
-                    }
 
-                    showFormTratt = function(id, dd, pp, mm, met){
-                        $scope.fakeTratt = {
-                            id: id,
-                            descrizione: dd,
-                            prezzo: pp,
-                            minuti: mm,
-                            ngact: met
-                        };
-                        $scope.nav.pushPage('tratt-manager.html');
-                    }
-
-                    this.trattamentiManager = function(tratt){
-                        showFormTratt(tratt._id.$oid, tratt.descrizione, tratt.prezzo, tratt.minuti, 'PUT');
                     }
 
 
-                }
+                    // MANAGER CALENDARIO
+                    {
 
-                // ajax per salvataggio info cliente
-                $scope.saveCliente = function(met){
-                    $http(
-                        {
-                            method : met,
-                            url : '/json/Clienti',
-                            data : {
-                                username: $scope.fakeCli.username,
-                                password: $scope.fakeCli.password,
-                                status: ($scope.fakeCli.status) ? 'A' : 'D',
-                                param: 'follow-by-' + $scope.fakeCli.action + '/' + $scope.fakeCli.param
+                        var settDay = new Array('LUN', 'MAR', 'MER', 'GIO', 'VEN', 'SAB', 'DOM');
+
+                        var meseName = new Array('Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre');
+                        var dataOdierna = new Date();
+
+                        $scope.dataSelezionata = new Date();
+                        $scope.typeCalendar = $scope.isPhone ? 'giorno' : 'settimana';
+                        $scope.styleCalButton = $scope.isPhone ? 'margin : 5px; padding: 0px;' : '';
+
+                        this.loadEvents = function(){
+                            $scope.eventi = new Array();
+                            var uu = makeUri('eventi', 's={"data": 1, "start": 1}');
+                            console.log('URL: ' + uu);
+                            $http(
+                                {
+                                    method : "GET",
+                                    url : uu
+                                }
+                            ).then(
+                                function mySuccess(response) {
+                                    console.log(response);
+                                    var res = response.data;
+                                    for (var i=0; i<res.length; ++i){
+                                        if (typeof $scope.eventi[res[i].data] == 'undefined')
+                                            $scope.eventi[res[i].data] = new Array();
+                                        var n = res[i];
+
+                                        var hh = n.start.substr(0,2);
+                                        var mm = n.start.substr(3,2);
+                                        var totmin = hh*60 - -mm;
+                                        var conAdd = totmin - -n.minuti;
+
+                                        var aa = conAdd % 60;
+                                        var bb = (conAdd - aa)/60;
+
+                                        n.end = addZero(bb) + ':' + addZero(aa);
+                                        console.log(n.end);
+                                        $scope.eventi[n.data].push(n);
+                                    }
+                                    console.log($scope.eventi);
+                                }
+                            );
+                        }
+
+                        this.fc_nav = function(dis){
+                            console.log($scope.dataSelezionata);
+
+
+                            if (dis == 'oggi'){
+                                $scope.dataSelezionata = new Date(dataOdierna);
+                                $scope.typeCalendar = 'giorno';
+                                this.renderGiorno();
+                            } else {
+                                if ($scope.typeCalendar == 'mese'){
+                                    if (dis != 0)
+                                        $scope.dataSelezionata.setMonth($scope.dataSelezionata.getMonth() + dis);
+                                    this.renderMese();
+                                } else if ($scope.typeCalendar == 'settimana'){
+                                    if (dis != 0)
+                                        $scope.dataSelezionata.setDate($scope.dataSelezionata.getDate() + dis*7);
+                                    this.renderSettimana();
+                                } else if ($scope.typeCalendar == 'giorno'){
+                                    if (dis != 0)
+                                        $scope.dataSelezionata.setDate($scope.dataSelezionata.getDate() + dis);
+                                    this.renderGiorno();
+                                }
                             }
+                            this.loadEvents();
                         }
-                    ).then(
-                        function mySuccess(response) {
-                            document.location.reload();
-                        }
-                    );
-                }
 
-                // ajax per action generica (follow, unfollow, stop)
-                $scope.doAct = function(act){
-                    $http(
-                        {
-                            method : 'GET',
-                            url : '/' + act,
+                        this.changeView = function(view){
+                            $scope.typeCalendar = view;
+                            console.log($scope.typeCalendar);
+                            this.fc_nav(0);
                         }
-                    ).then(
-                        function mySuccess(response) {
-                            document.location.reload();
+
+                        this.changeViewOnDay = function(view){
+                            console.log(view);
+                            $scope.dataSelezionata = new Date(view);
+                            $scope.typeCalendar = 'giorno';
+                            console.log($scope.typeCalendar);
+                            this.fc_nav(0);
                         }
-                    );
-                }
 
+                        this.renderGiorno = function(){
 
-                // FILTRI RICERCHE
-                {
+                            $scope.calRender = null;
 
-                    this.filterAnag = function(query){
-                        console.log(query);
-                        var q = query.toUpperCase().trim();
-                        q = q.replace(/ /g, '');
-                        var a = $scope.BEanagAll;
-                        var r = Array();
-                        for (var i=0; i<a.length; ++i){
-                            var x = a[i];
-                            var nc = x.nome.toUpperCase().replace(/ /g, '') + x.cognome.toUpperCase().replace(/ /g, '');
-                            var cn = x.cognome.toUpperCase().replace(/ /g, '') + x.nome.toUpperCase().replace(/ /g, '');
-                            var t1 = nc.toUpperCase().match(q);
-                            var t2 = cn.toUpperCase().match(q);
-                            if ((t1 != null) || (t2 != null))
-                                r.push(x);
+                            var tempd = new Date($scope.dataSelezionata.valueOf());
+
+                            $scope.headerCalendar = meseName[tempd.getMonth()] + ' ' + tempd.getFullYear();
+
+                            var mr = Array();
+
+                            var sett = Array();
+                            tp ={
+                                label: tempd.getDate(),
+                                isToday : ((tempd.getDate() == dataOdierna.getDate()) && (tempd.getMonth() == dataOdierna.getMonth()) && (tempd.getFullYear() == dataOdierna.getFullYear())),
+                                full: formatDate(tempd)
+                            };
+                            sett.push(tp);
+                            mr.push(sett);
+                            $scope.altezzaRigaCalendario = 'min-height: 0px;';
+
+                            console.log(mr);
+
+                            $scope.settDay = new Array(settDay[(tempd.getDay()+6) % 7]);
+                            $scope.calRender = mr;
+
+                        }      
+
+                        this.renderSettimana = function(){
+
+                            $scope.settDay = settDay;
+
+                            $scope.calRender = null;
+
+                            var d = new Date($scope.dataSelezionata.valueOf());
+                            console.log(d);
+                            var tempd = new Date(d.setDate(d.getDate() - d.getDay() +1));
+
+                            $scope.headerCalendar = meseName[tempd.getMonth()] + ' ' + tempd.getFullYear();
+
+                            var mr = Array();
+
+                            var sett = Array();
+                            for (var k=1; k<8; ++k){
+                                tp ={
+                                    label: tempd.getDate(),
+                                    isToday : ((tempd.getDate() == dataOdierna.getDate()) && (tempd.getMonth() == dataOdierna.getMonth()) && (tempd.getFullYear() == dataOdierna.getFullYear())),
+                                    full: formatDate(tempd)
+                                };
+                                tempd.setDate(tempd.getDate()+1);
+                                sett.push(tp);
+                            }
+                            mr.push(sett);
+                            $scope.altezzaRigaCalendario = 'min-height: 0px;';;
+
+                            console.log(mr);
+                            $scope.calRender = mr;
+
+                        }                
+
+                        this.renderMese = function(){
+
+                            $scope.settDay = settDay;
+                            $scope.calRender = null;
+                            var d = new Date($scope.dataSelezionata.valueOf());
+                            var tempd = new Date(d.setDate(1));
+                            $scope.headerCalendar = meseName[tempd.getMonth()] + ' ' + tempd.getFullYear();
+                            var mr = Array();
+
+                            for (var i=0; i<6; ++i){
+                                var sett = Array();
+                                var prev = -1;
+                                for (var k=1; k<8; ++k){
+                                    var tp ={
+                                        label: '',
+                                        isToday : false
+                                    };
+                                    if (tempd.getDay() == (k + 7*i) % 7){
+                                        if (prev < tempd.getDate()){
+                                            prev = tempd.getDate();
+                                            tp ={
+                                                label: tempd.getDate(),
+                                                isToday : ((tempd.getDate() == dataOdierna.getDate()) && (tempd.getMonth() == dataOdierna.getMonth()) && (tempd.getFullYear() == dataOdierna.getFullYear())),
+                                                full: formatDate(tempd)
+                                            };
+                                            tempd.setDate(tempd.getDate()+1);
+                                        }
+                                    }
+                                    sett.push(tp);
+                                }
+                                mr.push(sett);
+                                $scope.altezzaRigaCalendario = 'height: ' + (($scope.isPhone) ? 70 : 100) + 'px;';
+                                if (prev >= tempd.getDate())
+                                    break;
+                            }
+
+                            console.log(mr);
+                            $scope.calRender = mr;
                         }
-                        $scope.listaAnag = r;
                     }
 
-                    this.filterTratt = function(query){
-                        console.log(query);
-                        var q = query.toUpperCase().trim();
-                        q = q.replace(/ /g, '');
-                        var a = $scope.BEtrattAll;
-                        var r = Array();
-                        for (var i=0; i<a.length; ++i){
-                            var x = a[i];
-                            var nc = x.descrizione.toUpperCase();
-                            var t = nc.toUpperCase().replace(/ /g, '').match(q);
-                            if (t != null)
-                                r.push(x);
-                        }
-                        $scope.listaTratt = r;
-                    }
+                });
 
-                }
-
-                // HELPER
-                {
-
-                    // utility per creazione alert toast
-                    function makeToast(msg){
-                        ons.notification.toast({buttonLabels: 'OK', cancelable: true, message: msg});
-                    }
-
-                    // button add manager
-                    this.addToDb = function(page){
-                        console.log('TEST FOR ADD: ' + page);
-                        if (page=='Anagrafica')
-                            showFormAnag('','', 'POST');
-                        if (page=='Trattamenti')
-                            showFormTratt('', '','', '', 'POST');
-
-                    }
-
-                    // tracker pagina attiva
-                    $scope.namePage = function($event) {
-                        $scope.thisPage = angular.element($event.tabItem).attr('label');
-                    };
-
-                }
-            });
-
-        </script>
-
+            </script>
+        </div>
     </body>
 </html>
