@@ -45,6 +45,7 @@
                 font-size: 1.1em;
                 background-color: coral;
                 color: white;
+
             }
 
             .calendar_event{
@@ -72,7 +73,50 @@
 
     </head>
     <body>
+
+        <div ng-if="!auth">
+
+            <ons-navigator ng-if="!auth" var="nav" page="login.html">
+            </ons-navigator>
+
+            <template id="login.html">
+                <ons-page id="login" style="text-align: center;">
+                    <ons-toolbar>
+                        <div class="center">
+                            {{applicationName}}
+                        </div>
+                    </ons-toolbar>
+
+                    <ons-row style="margin-top: 50px;">
+                        <ons-col>Username</ons-col>
+                    </ons-row>
+                    <ons-row style="margin-top: 10px;">
+                        <ons-col>
+                            <ons-input modifier="underbar" placeholder="Username" input-id="mailAuth"></ons-input>
+                        </ons-col>
+                    </ons-row>
+
+                    <ons-row style="margin-top: 50px;">
+                        <ons-col>Password</ons-col>
+                    </ons-row>
+                    <ons-row style="margin-top: 10px;">
+                        <ons-col>
+                            <ons-input type="password" modifier="underbar" placeholder="Password" input-id="passAuth"></ons-input>
+                        </ons-col>
+                    </ons-row>
+
+                    <ons-row style="margin-top: 50px;">
+                        <ons-col>
+                            <ons-button input-id="logbtt" ng-click="ctrl.bttLogin()">ACCEDI</ons-button>                        </ons-col>
+                    </ons-row>
+
+                </ons-page>
+            </template>
+
+        </div>
+
         <div ng-if="auth">
+
             <ons-navigator var="nav" page="home.html">
             </ons-navigator>
 
@@ -82,16 +126,16 @@
                         <div class="center">
                             {{applicationName}}
                         </div>
-                        <div class="right">
+                        <div class="right" ng-if="auth">
                             <ons-toolbar-button ng-click="ctrl.addToDb(thisPage)" icon="fa-plus"></ons-toolbar-button>
                         </div>
                     </ons-toolbar>
                     <ons-tabbar position="bottom" ons-prechange="namePage($event)">
-                        <ons-tab page="appuntamenti.html" label="Home" icon="fa-home" active>
+                        <ons-tab ng-show="auth" page="appuntamenti.html" label="Home" icon="fa-home" active>
                         </ons-tab>
-                        <ons-tab page="anagrafica.html" label="Anagrafica" icon="fa-address-book">
+                        <ons-tab ng-show="auth" page="anagrafica.html" label="Anagrafica" icon="fa-address-book">
                         </ons-tab>
-                        <ons-tab page="trattamenti.html" label="Trattamenti" icon="fa-umbrella-beach">
+                        <ons-tab ng-show="auth" page="trattamenti.html" label="Trattamenti" icon="fa-umbrella-beach">
                         </ons-tab>
                     </ons-tabbar>
                 </ons-page>
@@ -498,454 +542,238 @@
                 </ons-page>
             </template>
 
-            <script>
+        </div>
 
-                var isPageSwipable = true;
+        <script>
 
-                var debb = null;
+            function setCookie(cname, cvalue, exdays) {
+                var d = new Date();
+                d.setTime(d.getTime() + (exdays*24*60*60*1000));
+                var expires = "expires="+ d.toUTCString();
+                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            }
 
-                ons.bootstrap()
-                    .controller('MainController', function($scope, $http) {
-
-                    // SETTINGS
-                    {
-
-                        $scope.auth = true;
-
-                        // APP-NAME
-                        $scope.applicationName = 'LK Nails & Beauty';
-
-                        // SPINNER LOADER
-                        $scope.progressNotif = true;
-
-                        // SETTING ORE
-                        $scope.oredisp = ['09','10','11','12','13','14','15','16','17','18','19','20'];
-                        $scope.mindisp = ['00','05','10','15','20','25','30','35','40','45','50','55'];
-                        $scope.fakeHH = '09';
-                        $scope.fakeMM = '00';
-
-                        // TRACKER PAGE
-                        $scope.thisPage = 'Home';
-
-                        // MODELS
-                        $scope.fakeCli = null;
-                        $scope.fakeTratt = null;
-                        $scope.fakeApp = null;
-                        $scope.actualNotaId = null;
-
-                        // VERIFICA DISPOSITIVO
-                        $scope.isPhone = (ons.platform.isAndroidPhone() || ons.platform.isIPhone() || ons.platform.isIPhoneX() || ons.platform.isWP() || ons.platform.isBlackBerry());
-
-                        // mongoDB API secret key
-                        var api='XUImABxDE9BJK7bPyOXC6A0REfwZ0vVg';
-
+            function getCookie(cname) {
+                var name = cname + "=";
+                var decodedCookie = decodeURIComponent(document.cookie);
+                var ca = decodedCookie.split(';');
+                for(var i = 0; i <ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
                     }
-
-
-                    // ajax per recupero note appuntamento
-                    $scope.loadNota = function(evs){
-                        ajaxLoadNota(evs);
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
                     }
+                }
+                return "";
+            }           
 
+            var isPageSwipable = true;
 
-                    //https://api.mlab.com/api/1/databases/my-db/collections/my-coll/4e7315a65e4ce91f885b7dde
+            var debb = null;
 
-                    // CONTROLLER TRATTAMENTI:
-                    {
+            ons.bootstrap()
+                .controller('MainController', function($scope, $http) {
 
-                        this.loadTrattamentiToAdd = function(){
-                            var clienteTarget = $scope.fakeApp.idcli;
-                            $scope.listaTrattApp1 = null;
-                            $scope.listaTrattApp2 = null;
-                            $scope.progressNotif = true;
-                            var uu = makeUri('trattamenti', 'q={"cliente":"' + clienteTarget + '"}&s={"descrizione": 1}');
-                            console.log('URL: ' + uu);
-                            $http(
-                                {
-                                    method : "GET",
-                                    url : uu
+                // SETTINGS
+                {
+
+                    $scope.auth = false;
+
+                    $scope.mailAuth = getCookie('mail');
+                    $scope.passAuth = getCookie('pass');
+
+                    console.log($scope.mailAuth);
+                    console.log($scope.passAuth);
+
+                    // APP-NAME
+                    $scope.applicationName = 'LK Nails & Beauty';
+
+                    // SPINNER LOADER
+                    $scope.progressNotif = true;
+
+                    // SETTING ORE
+                    $scope.oredisp = ['09','10','11','12','13','14','15','16','17','18','19','20'];
+                    $scope.mindisp = ['00','05','10','15','20','25','30','35','40','45','50','55'];
+                    $scope.fakeHH = '09';
+                    $scope.fakeMM = '00';
+
+                    // TRACKER PAGE
+                    $scope.thisPage = 'Home';
+
+                    // MODELS
+                    $scope.fakeCli = null;
+                    $scope.fakeTratt = null;
+                    $scope.fakeApp = null;
+                    $scope.actualNotaId = null;
+
+                    // VERIFICA DISPOSITIVO
+                    $scope.isPhone = (ons.platform.isAndroidPhone() || ons.platform.isIPhone() || ons.platform.isIPhoneX() || ons.platform.isWP() || ons.platform.isBlackBerry());
+
+                    // mongoDB API secret key
+                    var api='XUImABxDE9BJK7bPyOXC6A0REfwZ0vVg';
+
+                }
+
+                // AUTHORIZATION
+                {
+                    
+                    this.bttLogin = function(){
+                        this.loginApp(document.getElementById('mailAuth').value, document.getElementById('passAuth').value);
+                    }
+                                        
+                    this.loginApp = function(mail, pass){
+                        var uriAuth = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyBRXuXQkC-NOWSdt1kfhAyJaqWnOsvLWEw';
+                        $scope.auth = false;
+
+                        $http(
+                            {
+                                method : "POST",
+                                url : uriAuth,
+                                data: {
+                                    email: mail,
+                                    password: pass,
+                                    returnSecureToken: true
                                 }
-                            ).then(
-                                function mySuccess(response) {
-                                    var r1 = response.data;
-                                    var ar1 = Array();
-                                    for (var i=0; i<r1.length; ++i){
-                                        ar1.push(r1[i].descrizione);
-                                    }
-                                    $http(
-                                        {
-                                            method : "GET",
-                                            url : makeUri('trattamenti', 'q={"cliente":"$$$$$"}&s={"descrizione": 1}')
-                                        }
-                                    ).then(
-                                        function mySuccess(res) {
-                                            console.log(res.data);
-                                            var r2 = res.data;
-                                            var r3 = Array();
-                                            for (var i=0; i<r2.length; ++i){
-                                                if (ar1.indexOf(r2[i].descrizione)<0){
-                                                    console.log(r2[i]);
-                                                    r3.push(r2[i]);
-                                                }
-                                            }
-                                            $scope.listaTrattApp1 = r1;
-                                            $scope.listaTrattApp2 = r3;
-                                            $scope.progressNotif = false;
-                                        }
-                                    );
-                                }
-                            );
-                        }
-
-                        this.loadTrattamentiDropDown = function(clienteTarget){
-                            if (($scope.fakeTratt.cliente == '') || ($scope.fakeTratt.cliente == null) || (typeof $scope.fakeTratt.cliente == 'undefined')){
-                                $scope.fakeTratt.cliente = '$$$$$';
-                                $scope.durataOreChecker = 0;
-                            } else {
-                                $scope.durataOreChecker = this.divIntMin($scope.fakeTratt.minuti);
                             }
-                            $scope.BEtrattAllDD = null;
-                            $scope.progressNotif = true;
-                            var uu = makeUri('trattamenti', 'q={"cliente":"$$$$$"}&s={"descrizione": 1}');
-                            console.log('URL: ' + uu);
-                            $http(
-                                {
-                                    method : "GET",
-                                    url : uu
-                                }
-                            ).then(
-                                function mySuccess(response) {
-                                    var r1 = response.data;
-                                    var ar1 = Array();
-                                    for (var i=0; i<r1.length; ++i){
-                                        ar1.push(r1[i].descrizione);
-                                    }
-                                    $http(
-                                        {
-                                            method : "GET",
-                                            url : makeUri('trattamenti', 'q={"cliente":"' + clienteTarget + '"}&s={"descrizione": 1}')
-                                        }
-                                    ).then(
-                                        function mySuccess(res) {
-                                            console.log(clienteTarget);
-                                            console.log(ar1);
-                                            console.log(res.data);
-                                            var r2 = res.data;
-                                            var ar2 = Array();
-                                            var ardef = Array();
-                                            for (var i=0; i<r2.length; ++i){
-                                                ar2.push(r2[i].descrizione);
-                                            }
-                                            for (var i=0; i<r1.length; ++i){
-                                                if (ar2.indexOf(ar1[i])<0){
-                                                    console.log(ar1[i]);
-                                                    ardef.push(ar1[i]);
-                                                }
-                                            }
-
-                                            $scope.BEtrattAllDD = ardef;
-                                            $scope.progressNotif = false;
-                                        }
-                                    );
-                                }
-                            );
-                        }
-
-                        this.loadTrattamenti = function(clienteTarget){
-                            $scope.listaTratt = null;
-                            $scope.BEtrattAll = null;
-                            $scope.progressNotif = true;
-                            var uu = makeUri('trattamenti', 'q={"cliente":"' + clienteTarget + '"}&s={"descrizione": 1}');
-                            console.log('URL: ' + uu);
-                            $http(
-                                {
-                                    method : "GET",
-                                    url : uu
-                                }
-                            ).then(
-                                function mySuccess(response) {
-                                    console.log(response);
-                                    $scope.listaTratt = response.data;
-                                    $scope.BEtrattAll = response.data;
-                                    $scope.progressNotif = false;
-                                }
-                            );
-                        }
-
-                        this.delTrattamenti = function(idt){
-                            var uu = makeUri('trattamenti/' + idt.id, null);
-                            console.log('URL: ' + uu);
-                            $http(
-                                {
-                                    method : "DELETE",
-                                    url : uu
-                                }
-                            ).then(
-                                function mySuccess(response) {
-                                    console.log('ELIMINATO: ' + response);
-                                    makeToast('Trattamento ' + idt.descrizione + ' eliminato!');
-                                    nav.popPage();
-                                }
-                            );
-                        }
-
-                        this.updateTrattamenti = function(idt){
-                            var uu = makeUri('trattamenti/' + idt.id, null);
-                            console.log('URL: ' + uu);
-                            $http(
-                                {
-                                    method : "PUT",
-                                    url : uu,
-                                    data : {
-                                        cliente: idt.cliente,
-                                        descrizione: idt.descrizione,
-                                        prezzo: idt.prezzo,
-                                        minuti: this.calcMin()
-                                    }
-                                }
-                            ).then(
-                                function mySuccess(response) {
-                                    console.log('MODIFICATO: ' + response);
-                                    makeToast('Trattamento ' + idt.descrizione + ' modificato!');
-                                    nav.popPage();
-                                }
-                            );
-                        }
-
-                        this.addTrattamenti = function(idt){
-                            var uu = makeUri('trattamenti', null);
-                            console.log('URL: ' + uu);
-                            $http(
-                                {
-                                    method : "POST",
-                                    url : uu,
-                                    data : {
-                                        cliente: idt.cliente,
-                                        descrizione: idt.descrizione,
-                                        prezzo: idt.prezzo,
-                                        minuti: this.calcMin()
-                                    }
-                                }
-                            ).then(
-                                function mySuccess(response) {
-                                    console.log('AGGIUNTO: ' + response);
-                                    makeToast('Trattamento ' + idt.descrizione + ' aggiunto!');
-                                    nav.popPage();
-                                }
-                            );
-                        }
-
-                        this.calcMin = function(){
-                            var h = document.getElementById('durhh').value;
-                            var m = document.getElementById('durmm').value;
-                            return h*60 + m*1;
-                        }
-
-                        this.divIntMin = function(val){
-                            return (val - (val % 60)) / 60;
-                        }
-
-                        this.onlyMinSel = function(val){
-                            return val % 60;
-                        }
-
-                    }
-
-                    // CONTROLLER ANAGRAFICA
-                    {
-                        this.loadAnagrafica = function(){
-                            $scope.progressNotif = true;
-                            $scope.listaAnag = null;
-                            $scope.BEanagAll = null;
-                            var uu = makeUri('clienti', 's={"nome": 1, "cognome": 1}');
-                            console.log('URL: ' + uu);
-                            $http(
-                                {
-                                    method : "GET",
-                                    url : uu
-                                }
-                            ).then(
-                                function mySuccess(response) {
-                                    console.log(response);
-                                    $scope.listaAnag = response.data;
-                                    $scope.BEanagAll = response.data;
-                                    $scope.progressNotif = false;
-                                }
-                            );
-                        }
-
-                        this.delAnagrafica = function(idt){
-                            var uu = makeUri('clienti/' + idt.id, null);
-                            console.log('URL: ' + uu);
-                            $http(
-                                {
-                                    method : "DELETE",
-                                    url : uu
-                                }
-                            ).then(
-                                function mySuccess(response) {
-                                    console.log('ELIMINATO: ' + response);
-                                    makeToast('Cliente ' + idt.nome + ' ' + idt.cognome + ' eliminato!');
-                                    nav.popPage();
-                                }
-                            );
-                        }
-
-                        this.updateAnagrafica = function(idt){
-                            var uu = makeUri('clienti/' + idt.id, null);
-                            console.log('URL: ' + uu);
-                            $http(
-                                {
-                                    method : "PUT",
-                                    url : uu,
-                                    data : {
-                                        nome: idt.nome,
-                                        cognome: idt.cognome,
-                                        promozioni: idt.promozioni
-                                    }
-                                }
-                            ).then(
-                                function mySuccess(response) {
-                                    console.log('MODIFICATO: ' + response);
-                                    makeToast('Cliente ' + idt.nome + ' ' + idt.cognome + ' modificato!');
-                                    nav.popPage();
-                                }
-                            );
-                        }
-
-                        this.addAnagrafica = function(idt){
-                            var uu = makeUri('clienti', null);
-                            console.log('URL: ' + uu);
-                            $http(
-                                {
-                                    method : "POST",
-                                    url : uu,
-                                    data : {
-                                        nome: idt.nome,
-                                        cognome: idt.cognome
-                                    }
-                                }
-                            ).then(
-                                function mySuccess(response) {
-                                    console.log('AGGIUNTO: ' + response);
-                                    makeToast('Cliente ' + idt.nome + ' ' + idt.cognome + ' aggiunto!');
-                                    nav.popPage();
-                                }
-                            );
-                        }
-                    }
-
-                    // CONTROLLER APPUNTAMENTI
-                    {
-
-                        this.delAppuntamenti = function(idt){
-                            var uu = makeUri('eventi/' + idt, null);
-                            console.log('URL: ' + uu);
-                            $http(
-                                {
-                                    method : "DELETE",
-                                    url : uu
-                                }
-                            ).then(
-                                function mySuccess(response) {
-                                    console.log('ELIMINATO: ' + response);
-                                    makeToast('Cliente ' + idt.nome + ' ' + idt.cognome + ' eliminato!');
-                                    nav.popPage();
-                                }
-                            );
-                        }
-
-                        this.updateAppuntamenti = function(idt){
-                            var uu = makeUri('eventi/' + idt.id, null);
-                            console.log('URL: ' + uu);
-                            $http(
-                                {
-                                    method : "PUT",
-                                    url : uu,
-                                    data : {
-                                        nome: idt.nome,
-                                        cognome: idt.cognome,
-                                        promozioni: idt.promozioni
-                                    }
-                                }
-                            ).then(
-                                function mySuccess(response) {
-                                    console.log('MODIFICATO: ' + response);
-                                    makeToast('Cliente ' + idt.nome + ' ' + idt.cognome + ' modificato!');
-                                    nav.popPage();
-                                }
-                            );
-                        }
-
-                        this.addAppuntamenti = function(idt){
-                            var uu = makeUri('note', null);
-                            console.log('URL: ' + uu);
-                            $http(
-                                {
-                                    method : "POST",
-                                    url : uu,
-                                    data : {
-                                        cliente: idt.title,
-                                        trattamenti: idt.trattamenti,
-                                        prezzo: idt.prezzo
-                                    }
-                                }
-                            ).then(
-                                function mySuccess(response) {
-                                    $http(
-                                        {
-                                            method : "POST",
-                                            url : makeUri('eventi', null),
-                                            data : {
-                                                title: idt.title,
-                                                data: idt.data,
-                                                start: idt.start,
-                                                minuti: idt.minuti,
-                                                url: response.data._id.$oid
-                                            }
-                                        }
-                                    ).then(
-                                        function mySuccess(res) {
-                                            console.log('AGGIUNTO: ' + response);
-                                            debb = response;
-                                            nav.bringPageTop(0);
-                                        }
-                                    );
-                                }
-                            );
-                        }
-
-                        this.confirmEvento = function(){
-                            var h1 = document.getElementById('hh1').value;
-                            var h2 = document.getElementById('hh2').value;
-                            var m1 = document.getElementById('mm1').value;
-                            var m2 = document.getElementById('mm2').value;
-
-                            var mH = (h2 - h1) * 60;
-                            var mM = m2 - m1;
-                            var minuti = mH + mM;
-                            if(minuti < 5){
-                                ons.notification.alert('Orario non valido!');
-                            } else {
-                                $scope.fakeApp.minuti = minuti;
-                                $scope.fakeApp.start = h1 + ':' + m1;
-                                console.log($scope.fakeApp);
-                                this.addAppuntamenti($scope.fakeApp);
+                        ).then(
+                            function mySuccess(res) {
+                                console.log(res.data);
+                                $scope.auth = true;
+                                console.log('Set cookie: ' + mail + ' - ' + pass);
+                                setCookie('mail', mail, 30);
+                                setCookie('pass', pass, 30);
                             }
-                        }
-
-
+                        ).catch(
+                            function(error) {
+                                ons.notification.alert('LOGIN FALLITO!');
+                                setCookie('mail', '', 1);
+                                setCookie('pass', '', 1);
+                            });
                     }
 
-                    // NOTA APPUNTAMENTO
+                    if (($scope.mailAuth != '') && ($scope.passAuth != '') && (typeof $scope.mailAuth != 'undefined') && (typeof $scope.passAuth != 'undefined')){                        
+                        this.loginApp($scope.mailAuth, $scope.passAuth);
+                    }
 
-                    this.ajaxLoadNota = function(evs){
-                        console.log(evs);
-                        $scope.actualNotaId = evs._id.$oid;
-                        console.log($scope.actualNotaId);
-                        idNota = evs.url;
+                }
+
+
+                // ajax per recupero note appuntamento
+                $scope.loadNota = function(evs){
+                    ajaxLoadNota(evs);
+                }
+
+
+                //https://api.mlab.com/api/1/databases/my-db/collections/my-coll/4e7315a65e4ce91f885b7dde
+
+                // CONTROLLER TRATTAMENTI:
+                {
+
+                    this.loadTrattamentiToAdd = function(){
+                        var clienteTarget = $scope.fakeApp.idcli;
+                        $scope.listaTrattApp1 = null;
+                        $scope.listaTrattApp2 = null;
                         $scope.progressNotif = true;
-                        var uu = makeUri('note/' + idNota, null);
+                        var uu = makeUri('trattamenti', 'q={"cliente":"' + clienteTarget + '"}&s={"descrizione": 1}');
+                        console.log('URL: ' + uu);
+                        $http(
+                            {
+                                method : "GET",
+                                url : uu
+                            }
+                        ).then(
+                            function mySuccess(response) {
+                                var r1 = response.data;
+                                var ar1 = Array();
+                                for (var i=0; i<r1.length; ++i){
+                                    ar1.push(r1[i].descrizione);
+                                }
+                                $http(
+                                    {
+                                        method : "GET",
+                                        url : makeUri('trattamenti', 'q={"cliente":"$$$$$"}&s={"descrizione": 1}')
+                                    }
+                                ).then(
+                                    function mySuccess(res) {
+                                        console.log(res.data);
+                                        var r2 = res.data;
+                                        var r3 = Array();
+                                        for (var i=0; i<r2.length; ++i){
+                                            if (ar1.indexOf(r2[i].descrizione)<0){
+                                                console.log(r2[i]);
+                                                r3.push(r2[i]);
+                                            }
+                                        }
+                                        $scope.listaTrattApp1 = r1;
+                                        $scope.listaTrattApp2 = r3;
+                                        $scope.progressNotif = false;
+                                    }
+                                );
+                            }
+                        );
+                    }
+
+                    this.loadTrattamentiDropDown = function(clienteTarget){
+                        if (($scope.fakeTratt.cliente == '') || ($scope.fakeTratt.cliente == null) || (typeof $scope.fakeTratt.cliente == 'undefined')){
+                            $scope.fakeTratt.cliente = '$$$$$';
+                            $scope.durataOreChecker = 0;
+                        } else {
+                            $scope.durataOreChecker = this.divIntMin($scope.fakeTratt.minuti);
+                        }
+                        $scope.BEtrattAllDD = null;
+                        $scope.progressNotif = true;
+                        var uu = makeUri('trattamenti', 'q={"cliente":"$$$$$"}&s={"descrizione": 1}');
+                        console.log('URL: ' + uu);
+                        $http(
+                            {
+                                method : "GET",
+                                url : uu
+                            }
+                        ).then(
+                            function mySuccess(response) {
+                                var r1 = response.data;
+                                var ar1 = Array();
+                                for (var i=0; i<r1.length; ++i){
+                                    ar1.push(r1[i].descrizione);
+                                }
+                                $http(
+                                    {
+                                        method : "GET",
+                                        url : makeUri('trattamenti', 'q={"cliente":"' + clienteTarget + '"}&s={"descrizione": 1}')
+                                    }
+                                ).then(
+                                    function mySuccess(res) {
+                                        console.log(clienteTarget);
+                                        console.log(ar1);
+                                        console.log(res.data);
+                                        var r2 = res.data;
+                                        var ar2 = Array();
+                                        var ardef = Array();
+                                        for (var i=0; i<r2.length; ++i){
+                                            ar2.push(r2[i].descrizione);
+                                        }
+                                        for (var i=0; i<r1.length; ++i){
+                                            if (ar2.indexOf(ar1[i])<0){
+                                                console.log(ar1[i]);
+                                                ardef.push(ar1[i]);
+                                            }
+                                        }
+
+                                        $scope.BEtrattAllDD = ardef;
+                                        $scope.progressNotif = false;
+                                    }
+                                );
+                            }
+                        );
+                    }
+
+                    this.loadTrattamenti = function(clienteTarget){
+                        $scope.listaTratt = null;
+                        $scope.BEtrattAll = null;
+                        $scope.progressNotif = true;
+                        var uu = makeUri('trattamenti', 'q={"cliente":"' + clienteTarget + '"}&s={"descrizione": 1}');
                         console.log('URL: ' + uu);
                         $http(
                             {
@@ -955,440 +783,729 @@
                         ).then(
                             function mySuccess(response) {
                                 console.log(response);
-                                $scope.nota = response.data;
-                                var t = response.data.trattamenti.split(";");
-                                var nt = Array();
-                                for (var i=0; i<t.length-1; ++i)
-                                    nt.push(t[i]);
-                                $scope.ntratt = nt;
-                                $scope.nav.pushPage('view-nota.html');
+                                $scope.listaTratt = response.data;
+                                $scope.BEtrattAll = response.data;
+                                $scope.progressNotif = false;
                             }
                         );
                     }
 
-
-
-                    // FE-VIEW PAGINE DEI FORM
-                    {
-
-                        showFormAnag = function(id, nn, cc, prom, met){
-                            $scope.fakeCli = {
-                                id: id,
-                                nome: nn,
-                                cognome: cc,
-                                promozioni: prom,
-                                ngact: met
-                            };
-                            console.log($scope.fakeCli);
-                            $scope.nav.pushPage('anag-manager.html');
-                        }
-
-                        showFormTratt = function(id, clii, dd, pp, mm, met){
-                            $scope.fakeTratt = {
-                                id: id,
-                                cliente: clii,
-                                descrizione: dd,
-                                prezzo: pp,
-                                minuti: mm,
-                                ngact: met
-                            };
-                            $scope.nav.pushPage('tratt-manager.html');
-                        }
-
-                        showFormApp = function(){
-                            $scope.nav.pushPage('appuntamenti-manager-p1.html');
-                        }
-
-                        this.trattamentiManager = function(tratt){
-                            showFormTratt(tratt._id.$oid, tratt.cliente, tratt.descrizione, tratt.prezzo, tratt.minuti, 'PUT');
-                        }
-
-                        this.anagraficaManager = function(anag){
-                            console.log(anag);
-                            showFormAnag(anag._id.$oid, anag.nome, anag.cognome, anag.promozioni, 'PUT');
-                        }
-
-                        this.appuntamentoP2 = function(cli, tit){
-                            $scope.fakeApp = {idcli: cli, title: tit, data: formatDate($scope.dataSelezionata)};
-                            $scope.nav.pushPage('appuntamenti-manager-p2.html');
-
-                        }
-
-                        this.appuntamentoP3 = function(){
-                            console.log($scope.listaTrattApp1);
-                            console.log($scope.listaTrattApp2);
-                            var ttr = '';
-                            var ttp = 0;
-                            var ttm = 0;
-                            for(var i=0; i<$scope.listaTrattApp1.length; ++i)
-                                if (typeof $scope.listaTrattApp1[i].selected != 'undefined')
-                                    if($scope.listaTrattApp1[i].selected){
-                                        console.log($scope.listaTrattApp1[i]);
-                                        ttr += $scope.listaTrattApp1[i].descrizione + ';';
-                                        ttp += $scope.listaTrattApp1[i].prezzo;
-                                        ttm += $scope.listaTrattApp1[i].minuti;
-                                    }
-
-                            for(var i=0; i<$scope.listaTrattApp2.length; ++i)
-                                if (typeof $scope.listaTrattApp2[i].selected != 'undefined')
-                                    if($scope.listaTrattApp2[i].selected){
-                                        console.log($scope.listaTrattApp2[i]);
-                                        ttr += $scope.listaTrattApp2[i].descrizione + ';';
-                                        ttp += $scope.listaTrattApp2[i].prezzo;
-                                        ttm += $scope.listaTrattApp2[i].minuti;
-                                    }
-
-                            $scope.fakeApp.trattamenti = ttr;
-                            $scope.fakeApp.prezzo = ttp;
-                            $scope.fakeApp.minuti = ttm;
-
-                            console.log($scope.fakeApp);
-
-                            $scope.nav.pushPage('appuntamenti-manager-p3.html');
-                            // ng-model="checkapptratt1" value="{{$index}}"
-                        }
-
-                        this.calcolaTempoIpotetico = function(){
-                            var hh = $scope.fakeHH;
-                            var mm = $scope.fakeMM;
-                            var totmin = hh*60 - -mm;
-                            var conAdd = totmin - -$scope.fakeApp.minuti;
-
-                            var aa = conAdd % 60;
-                            var bb = (conAdd - aa)/60;
-
-                            $scope.fakeEH = addZero(bb);
-                            $scope.fakeEM = addZero(aa);
-                            console.log('fine ipotetica: ' + $scope.fakeEH + ':' + $scope.fakeEM);
-                        }
-
-
-                    }
-
-                    // ajax per action generica (follow, unfollow, stop)
-                    $scope.doAct = function(act){
+                    this.delTrattamenti = function(idt){
+                        var uu = makeUri('trattamenti/' + idt.id, null);
+                        console.log('URL: ' + uu);
                         $http(
                             {
-                                method : 'GET',
-                                url : '/' + act,
+                                method : "DELETE",
+                                url : uu
                             }
                         ).then(
                             function mySuccess(response) {
-                                document.location.reload();
+                                console.log('ELIMINATO: ' + response);
+                                makeToast('Trattamento ' + idt.descrizione + ' eliminato!');
+                                nav.popPage();
                             }
                         );
                     }
 
-
-                    // FILTRI RICERCHE
-                    {
-
-                        this.filterAnag = function(query){
-                            console.log(query);
-                            var q = query.toUpperCase().trim();
-                            q = q.replace(/ /g, '');
-                            var a = $scope.BEanagAll;
-                            var r = Array();
-                            for (var i=0; i<a.length; ++i){
-                                var x = a[i];
-                                var nc = x.nome.toUpperCase().replace(/ /g, '') + x.cognome.toUpperCase().replace(/ /g, '');
-                                var cn = x.cognome.toUpperCase().replace(/ /g, '') + x.nome.toUpperCase().replace(/ /g, '');
-                                var t1 = nc.toUpperCase().match(q);
-                                var t2 = cn.toUpperCase().match(q);
-                                if ((t1 != null) || (t2 != null))
-                                    r.push(x);
-                            }
-                            $scope.listaAnag = r;
-                        }
-
-                        this.filterTratt = function(query){
-                            console.log(query);
-                            var q = query.toUpperCase().trim();
-                            q = q.replace(/ /g, '');
-                            var a = $scope.BEtrattAll;
-                            var r = Array();
-                            for (var i=0; i<a.length; ++i){
-                                var x = a[i];
-                                var nc = x.descrizione.toUpperCase();
-                                var t = nc.toUpperCase().replace(/ /g, '').match(q);
-                                if (t != null)
-                                    r.push(x);
-                            }
-                            $scope.listaTratt = r;
-                        }
-
-                    }
-
-                    // HELPER
-                    {
-
-                        // utility per creazione alert toast
-                        function makeToast(msg){
-                            //ons.notification.toast({buttonLabels: 'OK', cancelable: true, message: msg});
-                        }
-
-                        // utility per mongoDB rest API URL
-                        function makeUri(path, query){
-                            query = (query==null) ? '' : ((query != '') ? '&' + query : '');
-                            return 'https://api.mlab.com/api/1/databases/heroku_s4qtgnv8/collections/' + path + '?apiKey=' + api + query;
-                        }
-
-                        // utility per formattare la data nel formato YYYY-MM-DD
-                        function formatDate(data){
-                            var s = data.getFullYear() + '-';
-                            s += addZero(data.getMonth()+1) + '-';
-                            s += addZero(data.getDate());
-                            return s;
-                        }
-
-                        // utility per formattare le ore nel formato HH:MM
-                        function addZero(x){
-                            return (x<10) ? '0' + x : x;
-                        }
-
-                        $scope.addZeroSc = function(x){
-                            return (x<10) ? '0' + x : x;
-                        }
-
-                        $scope.formatStringData = function(x){
-                            var a = x.substr(0,4);
-                            var m = x.substr(5,2);
-                            m = meseName[m-1] + ' ';
-                            var g = x.substr(8,2) + ' ';
-                            var td = new Date($scope.fakeApp.data);
-                            var d = settDay[td.getDay()-1] + ', ';
-                            return d + g + m + a;
-                        }
-
-                        $scope.getListaTratt = function(){
-                            var t = $scope.fakeApp.trattamenti.split(';');
-                            var r = '';
-                            for(var i=0; i<t.length-2; ++i)
-                                r += t[i] + ', ';
-                            r += t[t.length-2] + '.';
-                            return r;
-                        }
-
-                        // button add manager
-                        this.addToDb = function(page){
-                            console.log('TEST FOR ADD: ' + page);
-                            if (page=='Anagrafica')
-                                showFormAnag('', '', '', '', 'POST');
-                            if (page=='Trattamenti')
-                                showFormTratt('', '','', '', '', 'POST');
-                            if (page=='TrattamentiPers')
-                                showFormTratt('', $scope.fakeCli.id, '', '', '', 'POST');
-                            if (page=='Home'){
-
-                                showFormApp();
-                                //appuntamenti-manager.html
-                            }
-                            //this.addAppuntamenti();
-
-                            //
-
-                        }
-
-                        // tracker pagina attiva
-                        $scope.namePage = function($event) {
-                            $scope.thisPage = angular.element($event.tabItem).attr('label');
-                            isPageSwipable = ($scope.thisPage == 'Home');
-                            console.log(isPageSwipable);
-                        };
-
-                    }
-
-
-                    // MANAGER CALENDARIO
-                    {
-
-                        var settDay = new Array('LUN', 'MAR', 'MER', 'GIO', 'VEN', 'SAB', 'DOM');
-
-                        var meseName = new Array('Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre');
-                        var dataOdierna = new Date();
-
-                        $scope.dataSelezionata = new Date();
-                        $scope.typeCalendar = $scope.isPhone ? 'giorno' : 'settimana';
-                        $scope.styleCalButton = $scope.isPhone ? 'margin : 5px; padding: 0px;' : '';
-
-                        this.loadEvents = function(){
-                            $scope.eventi = new Array();
-                            var uu = makeUri('eventi', 's={"data": 1, "start": 1}');
-                            console.log('URL: ' + uu);
-                            $http(
-                                {
-                                    method : "GET",
-                                    url : uu
+                    this.updateTrattamenti = function(idt){
+                        var uu = makeUri('trattamenti/' + idt.id, null);
+                        console.log('URL: ' + uu);
+                        $http(
+                            {
+                                method : "PUT",
+                                url : uu,
+                                data : {
+                                    cliente: idt.cliente,
+                                    descrizione: idt.descrizione,
+                                    prezzo: idt.prezzo,
+                                    minuti: this.calcMin()
                                 }
-                            ).then(
-                                function mySuccess(response) {
-                                    console.log(response);
-                                    var res = response.data;
-                                    for (var i=0; i<res.length; ++i){
-                                        if (typeof $scope.eventi[res[i].data] == 'undefined')
-                                            $scope.eventi[res[i].data] = new Array();
-                                        var n = res[i];
+                            }
+                        ).then(
+                            function mySuccess(response) {
+                                console.log('MODIFICATO: ' + response);
+                                makeToast('Trattamento ' + idt.descrizione + ' modificato!');
+                                nav.popPage();
+                            }
+                        );
+                    }
 
-                                        var hh = n.start.substr(0,2);
-                                        var mm = n.start.substr(3,2);
-                                        var totmin = hh*60 - -mm;
-                                        var conAdd = totmin - -n.minuti;
+                    this.addTrattamenti = function(idt){
+                        var uu = makeUri('trattamenti', null);
+                        console.log('URL: ' + uu);
+                        $http(
+                            {
+                                method : "POST",
+                                url : uu,
+                                data : {
+                                    cliente: idt.cliente,
+                                    descrizione: idt.descrizione,
+                                    prezzo: idt.prezzo,
+                                    minuti: this.calcMin()
+                                }
+                            }
+                        ).then(
+                            function mySuccess(response) {
+                                console.log('AGGIUNTO: ' + response);
+                                makeToast('Trattamento ' + idt.descrizione + ' aggiunto!');
+                                nav.popPage();
+                            }
+                        );
+                    }
 
-                                        var aa = conAdd % 60;
-                                        var bb = (conAdd - aa)/60;
+                    this.calcMin = function(){
+                        var h = document.getElementById('durhh').value;
+                        var m = document.getElementById('durmm').value;
+                        return h*60 + m*1;
+                    }
 
-                                        n.end = addZero(bb) + ':' + addZero(aa);
-                                        console.log(n.end);
-                                        $scope.eventi[n.data].push(n);
+                    this.divIntMin = function(val){
+                        return (val - (val % 60)) / 60;
+                    }
+
+                    this.onlyMinSel = function(val){
+                        return val % 60;
+                    }
+
+                }
+
+                // CONTROLLER ANAGRAFICA
+                {
+                    this.loadAnagrafica = function(){
+                        $scope.progressNotif = true;
+                        $scope.listaAnag = null;
+                        $scope.BEanagAll = null;
+                        var uu = makeUri('clienti', 's={"nome": 1, "cognome": 1}');
+                        console.log('URL: ' + uu);
+                        $http(
+                            {
+                                method : "GET",
+                                url : uu
+                            }
+                        ).then(
+                            function mySuccess(response) {
+                                console.log(response);
+                                $scope.listaAnag = response.data;
+                                $scope.BEanagAll = response.data;
+                                $scope.progressNotif = false;
+                            }
+                        );
+                    }
+
+                    this.delAnagrafica = function(idt){
+                        var uu = makeUri('clienti/' + idt.id, null);
+                        console.log('URL: ' + uu);
+                        $http(
+                            {
+                                method : "DELETE",
+                                url : uu
+                            }
+                        ).then(
+                            function mySuccess(response) {
+                                console.log('ELIMINATO: ' + response);
+                                makeToast('Cliente ' + idt.nome + ' ' + idt.cognome + ' eliminato!');
+                                nav.popPage();
+                            }
+                        );
+                    }
+
+                    this.updateAnagrafica = function(idt){
+                        var uu = makeUri('clienti/' + idt.id, null);
+                        console.log('URL: ' + uu);
+                        $http(
+                            {
+                                method : "PUT",
+                                url : uu,
+                                data : {
+                                    nome: idt.nome,
+                                    cognome: idt.cognome,
+                                    promozioni: idt.promozioni
+                                }
+                            }
+                        ).then(
+                            function mySuccess(response) {
+                                console.log('MODIFICATO: ' + response);
+                                makeToast('Cliente ' + idt.nome + ' ' + idt.cognome + ' modificato!');
+                                nav.popPage();
+                            }
+                        );
+                    }
+
+                    this.addAnagrafica = function(idt){
+                        var uu = makeUri('clienti', null);
+                        console.log('URL: ' + uu);
+                        $http(
+                            {
+                                method : "POST",
+                                url : uu,
+                                data : {
+                                    nome: idt.nome,
+                                    cognome: idt.cognome
+                                }
+                            }
+                        ).then(
+                            function mySuccess(response) {
+                                console.log('AGGIUNTO: ' + response);
+                                makeToast('Cliente ' + idt.nome + ' ' + idt.cognome + ' aggiunto!');
+                                nav.popPage();
+                            }
+                        );
+                    }
+                }
+
+                // CONTROLLER APPUNTAMENTI
+                {
+
+                    this.delAppuntamenti = function(idt){
+                        var uu = makeUri('eventi/' + idt, null);
+                        console.log('URL: ' + uu);
+                        $http(
+                            {
+                                method : "DELETE",
+                                url : uu
+                            }
+                        ).then(
+                            function mySuccess(response) {
+                                console.log('ELIMINATO: ' + response);
+                                makeToast('Cliente ' + idt.nome + ' ' + idt.cognome + ' eliminato!');
+                                nav.popPage();
+                            }
+                        );
+                    }
+
+                    this.updateAppuntamenti = function(idt){
+                        var uu = makeUri('eventi/' + idt.id, null);
+                        console.log('URL: ' + uu);
+                        $http(
+                            {
+                                method : "PUT",
+                                url : uu,
+                                data : {
+                                    nome: idt.nome,
+                                    cognome: idt.cognome,
+                                    promozioni: idt.promozioni
+                                }
+                            }
+                        ).then(
+                            function mySuccess(response) {
+                                console.log('MODIFICATO: ' + response);
+                                makeToast('Cliente ' + idt.nome + ' ' + idt.cognome + ' modificato!');
+                                nav.popPage();
+                            }
+                        );
+                    }
+
+                    this.addAppuntamenti = function(idt){
+                        var uu = makeUri('note', null);
+                        console.log('URL: ' + uu);
+                        $http(
+                            {
+                                method : "POST",
+                                url : uu,
+                                data : {
+                                    cliente: idt.title,
+                                    trattamenti: idt.trattamenti,
+                                    prezzo: idt.prezzo
+                                }
+                            }
+                        ).then(
+                            function mySuccess(response) {
+                                $http(
+                                    {
+                                        method : "POST",
+                                        url : makeUri('eventi', null),
+                                        data : {
+                                            title: idt.title,
+                                            data: idt.data,
+                                            start: idt.start,
+                                            minuti: idt.minuti,
+                                            url: response.data._id.$oid
+                                        }
                                     }
-                                    console.log($scope.eventi);
-                                }
-                            );
-                        }
-
-                        this.fc_nav = function(dis){
-                            console.log($scope.dataSelezionata);
-
-
-                            if (dis == 'oggi'){
-                                $scope.dataSelezionata = new Date(dataOdierna);
-                                $scope.typeCalendar = 'giorno';
-                                this.renderGiorno();
-                            } else {
-                                if ($scope.typeCalendar == 'mese'){
-                                    if (dis != 0)
-                                        $scope.dataSelezionata.setMonth($scope.dataSelezionata.getMonth() + dis);
-                                    this.renderMese();
-                                } else if ($scope.typeCalendar == 'settimana'){
-                                    if (dis != 0)
-                                        $scope.dataSelezionata.setDate($scope.dataSelezionata.getDate() + dis*7);
-                                    this.renderSettimana();
-                                } else if ($scope.typeCalendar == 'giorno'){
-                                    if (dis != 0)
-                                        $scope.dataSelezionata.setDate($scope.dataSelezionata.getDate() + dis);
-                                    this.renderGiorno();
-                                }
+                                ).then(
+                                    function mySuccess(res) {
+                                        console.log('AGGIUNTO: ' + response);
+                                        debb = response;
+                                        nav.bringPageTop(0);
+                                    }
+                                );
                             }
-                            this.loadEvents();
-                        }
+                        );
+                    }
 
-                        this.changeView = function(view){
-                            $scope.typeCalendar = view;
-                            console.log($scope.typeCalendar);
-                            this.fc_nav(0);
-                        }
+                    this.confirmEvento = function(){
+                        var h1 = document.getElementById('hh1').value;
+                        var h2 = document.getElementById('hh2').value;
+                        var m1 = document.getElementById('mm1').value;
+                        var m2 = document.getElementById('mm2').value;
 
-                        this.changeViewOnDay = function(view){
-                            console.log(view);
-                            $scope.dataSelezionata = new Date(view);
+                        var mH = (h2 - h1) * 60;
+                        var mM = m2 - m1;
+                        var minuti = mH + mM;
+                        if(minuti < 5){
+                            ons.notification.alert('Orario non valido!');
+                        } else {
+                            $scope.fakeApp.minuti = minuti;
+                            $scope.fakeApp.start = h1 + ':' + m1;
+                            console.log($scope.fakeApp);
+                            this.addAppuntamenti($scope.fakeApp);
+                        }
+                    }
+
+
+                }
+
+                // NOTA APPUNTAMENTO
+
+                this.ajaxLoadNota = function(evs){
+                    console.log(evs);
+                    $scope.actualNotaId = evs._id.$oid;
+                    console.log($scope.actualNotaId);
+                    idNota = evs.url;
+                    $scope.progressNotif = true;
+                    var uu = makeUri('note/' + idNota, null);
+                    console.log('URL: ' + uu);
+                    $http(
+                        {
+                            method : "GET",
+                            url : uu
+                        }
+                    ).then(
+                        function mySuccess(response) {
+                            console.log(response);
+                            $scope.nota = response.data;
+                            var t = response.data.trattamenti.split(";");
+                            var nt = Array();
+                            for (var i=0; i<t.length-1; ++i)
+                                nt.push(t[i]);
+                            $scope.ntratt = nt;
+                            $scope.nav.pushPage('view-nota.html');
+                        }
+                    );
+                }
+
+
+
+                // FE-VIEW PAGINE DEI FORM
+                {
+
+                    showFormAnag = function(id, nn, cc, prom, met){
+                        $scope.fakeCli = {
+                            id: id,
+                            nome: nn,
+                            cognome: cc,
+                            promozioni: prom,
+                            ngact: met
+                        };
+                        console.log($scope.fakeCli);
+                        $scope.nav.pushPage('anag-manager.html');
+                    }
+
+                    showFormTratt = function(id, clii, dd, pp, mm, met){
+                        $scope.fakeTratt = {
+                            id: id,
+                            cliente: clii,
+                            descrizione: dd,
+                            prezzo: pp,
+                            minuti: mm,
+                            ngact: met
+                        };
+                        $scope.nav.pushPage('tratt-manager.html');
+                    }
+
+                    showFormApp = function(){
+                        $scope.nav.pushPage('appuntamenti-manager-p1.html');
+                    }
+
+                    this.trattamentiManager = function(tratt){
+                        showFormTratt(tratt._id.$oid, tratt.cliente, tratt.descrizione, tratt.prezzo, tratt.minuti, 'PUT');
+                    }
+
+                    this.anagraficaManager = function(anag){
+                        console.log(anag);
+                        showFormAnag(anag._id.$oid, anag.nome, anag.cognome, anag.promozioni, 'PUT');
+                    }
+
+                    this.appuntamentoP2 = function(cli, tit){
+                        $scope.fakeApp = {idcli: cli, title: tit, data: formatDate($scope.dataSelezionata)};
+                        $scope.nav.pushPage('appuntamenti-manager-p2.html');
+
+                    }
+
+                    this.appuntamentoP3 = function(){
+                        console.log($scope.listaTrattApp1);
+                        console.log($scope.listaTrattApp2);
+                        var ttr = '';
+                        var ttp = 0;
+                        var ttm = 0;
+                        for(var i=0; i<$scope.listaTrattApp1.length; ++i)
+                            if (typeof $scope.listaTrattApp1[i].selected != 'undefined')
+                                if($scope.listaTrattApp1[i].selected){
+                                    console.log($scope.listaTrattApp1[i]);
+                                    ttr += $scope.listaTrattApp1[i].descrizione + ';';
+                                    ttp += $scope.listaTrattApp1[i].prezzo;
+                                    ttm += $scope.listaTrattApp1[i].minuti;
+                                }
+
+                        for(var i=0; i<$scope.listaTrattApp2.length; ++i)
+                            if (typeof $scope.listaTrattApp2[i].selected != 'undefined')
+                                if($scope.listaTrattApp2[i].selected){
+                                    console.log($scope.listaTrattApp2[i]);
+                                    ttr += $scope.listaTrattApp2[i].descrizione + ';';
+                                    ttp += $scope.listaTrattApp2[i].prezzo;
+                                    ttm += $scope.listaTrattApp2[i].minuti;
+                                }
+
+                        $scope.fakeApp.trattamenti = ttr;
+                        $scope.fakeApp.prezzo = ttp;
+                        $scope.fakeApp.minuti = ttm;
+
+                        console.log($scope.fakeApp);
+
+                        $scope.nav.pushPage('appuntamenti-manager-p3.html');
+                        // ng-model="checkapptratt1" value="{{$index}}"
+                    }
+
+                    this.calcolaTempoIpotetico = function(){
+                        var hh = $scope.fakeHH;
+                        var mm = $scope.fakeMM;
+                        var totmin = hh*60 - -mm;
+                        var conAdd = totmin - -$scope.fakeApp.minuti;
+
+                        var aa = conAdd % 60;
+                        var bb = (conAdd - aa)/60;
+
+                        $scope.fakeEH = addZero(bb);
+                        $scope.fakeEM = addZero(aa);
+                        console.log('fine ipotetica: ' + $scope.fakeEH + ':' + $scope.fakeEM);
+                    }
+
+
+                }
+
+                // ajax per action generica (follow, unfollow, stop)
+                $scope.doAct = function(act){
+                    $http(
+                        {
+                            method : 'GET',
+                            url : '/' + act,
+                        }
+                    ).then(
+                        function mySuccess(response) {
+                            document.location.reload();
+                        }
+                    );
+                }
+
+
+                // FILTRI RICERCHE
+                {
+
+                    this.filterAnag = function(query){
+                        console.log(query);
+                        var q = query.toUpperCase().trim();
+                        q = q.replace(/ /g, '');
+                        var a = $scope.BEanagAll;
+                        var r = Array();
+                        for (var i=0; i<a.length; ++i){
+                            var x = a[i];
+                            var nc = x.nome.toUpperCase().replace(/ /g, '') + x.cognome.toUpperCase().replace(/ /g, '');
+                            var cn = x.cognome.toUpperCase().replace(/ /g, '') + x.nome.toUpperCase().replace(/ /g, '');
+                            var t1 = nc.toUpperCase().match(q);
+                            var t2 = cn.toUpperCase().match(q);
+                            if ((t1 != null) || (t2 != null))
+                                r.push(x);
+                        }
+                        $scope.listaAnag = r;
+                    }
+
+                    this.filterTratt = function(query){
+                        console.log(query);
+                        var q = query.toUpperCase().trim();
+                        q = q.replace(/ /g, '');
+                        var a = $scope.BEtrattAll;
+                        var r = Array();
+                        for (var i=0; i<a.length; ++i){
+                            var x = a[i];
+                            var nc = x.descrizione.toUpperCase();
+                            var t = nc.toUpperCase().replace(/ /g, '').match(q);
+                            if (t != null)
+                                r.push(x);
+                        }
+                        $scope.listaTratt = r;
+                    }
+
+                }
+
+                // HELPER
+                {
+
+                    // utility per creazione alert toast
+                    function makeToast(msg){
+                        //ons.notification.toast({buttonLabels: 'OK', cancelable: true, message: msg});
+                    }
+
+                    // utility per mongoDB rest API URL
+                    function makeUri(path, query){
+                        query = (query==null) ? '' : ((query != '') ? '&' + query : '');
+                        return 'https://api.mlab.com/api/1/databases/heroku_s4qtgnv8/collections/' + path + '?apiKey=' + api + query;
+                    }
+
+                    // utility per formattare la data nel formato YYYY-MM-DD
+                    function formatDate(data){
+                        var s = data.getFullYear() + '-';
+                        s += addZero(data.getMonth()+1) + '-';
+                        s += addZero(data.getDate());
+                        return s;
+                    }
+
+                    // utility per formattare le ore nel formato HH:MM
+                    function addZero(x){
+                        return (x<10) ? '0' + x : x;
+                    }
+
+                    $scope.addZeroSc = function(x){
+                        return (x<10) ? '0' + x : x;
+                    }
+
+                    $scope.formatStringData = function(x){
+                        var a = x.substr(0,4);
+                        var m = x.substr(5,2);
+                        m = meseName[m-1] + ' ';
+                        var g = x.substr(8,2) + ' ';
+                        var td = new Date($scope.fakeApp.data);
+                        var d = settDay[td.getDay()-1] + ', ';
+                        return d + g + m + a;
+                    }
+
+                    $scope.getListaTratt = function(){
+                        var t = $scope.fakeApp.trattamenti.split(';');
+                        var r = '';
+                        for(var i=0; i<t.length-2; ++i)
+                            r += t[i] + ', ';
+                        r += t[t.length-2] + '.';
+                        return r;
+                    }
+
+                    // button add manager
+                    this.addToDb = function(page){
+                        console.log('TEST FOR ADD: ' + page);
+                        if (page=='Anagrafica')
+                            showFormAnag('', '', '', '', 'POST');
+                        if (page=='Trattamenti')
+                            showFormTratt('', '','', '', '', 'POST');
+                        if (page=='TrattamentiPers')
+                            showFormTratt('', $scope.fakeCli.id, '', '', '', 'POST');
+                        if (page=='Home'){
+
+                            showFormApp();
+                            //appuntamenti-manager.html
+                        }
+                        //this.addAppuntamenti();
+
+                        //
+
+                    }
+
+                    // tracker pagina attiva
+                    $scope.namePage = function($event) {
+                        $scope.thisPage = angular.element($event.tabItem).attr('label');
+                        isPageSwipable = ($scope.thisPage == 'Home');
+                        console.log(isPageSwipable);
+                    };
+
+                }
+
+
+                // MANAGER CALENDARIO
+                {
+
+                    var settDay = new Array('LUN', 'MAR', 'MER', 'GIO', 'VEN', 'SAB', 'DOM');
+
+                    var meseName = new Array('Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre');
+                    var dataOdierna = new Date();
+
+                    $scope.dataSelezionata = new Date();
+                    $scope.typeCalendar = $scope.isPhone ? 'giorno' : 'settimana';
+                    $scope.styleCalButton = $scope.isPhone ? 'margin : 5px; padding: 0px;' : '';
+
+                    this.loadEvents = function(){
+                        $scope.eventi = new Array();
+                        var uu = makeUri('eventi', 's={"data": 1, "start": 1}');
+                        console.log('URL: ' + uu);
+                        $http(
+                            {
+                                method : "GET",
+                                url : uu
+                            }
+                        ).then(
+                            function mySuccess(response) {
+                                console.log(response);
+                                var res = response.data;
+                                for (var i=0; i<res.length; ++i){
+                                    if (typeof $scope.eventi[res[i].data] == 'undefined')
+                                        $scope.eventi[res[i].data] = new Array();
+                                    var n = res[i];
+
+                                    var hh = n.start.substr(0,2);
+                                    var mm = n.start.substr(3,2);
+                                    var totmin = hh*60 - -mm;
+                                    var conAdd = totmin - -n.minuti;
+
+                                    var aa = conAdd % 60;
+                                    var bb = (conAdd - aa)/60;
+
+                                    n.end = addZero(bb) + ':' + addZero(aa);
+                                    console.log(n.end);
+                                    $scope.eventi[n.data].push(n);
+                                }
+                                console.log($scope.eventi);
+                            }
+                        );
+                    }
+
+                    this.fc_nav = function(dis){
+                        console.log($scope.dataSelezionata);
+
+
+                        if (dis == 'oggi'){
+                            $scope.dataSelezionata = new Date(dataOdierna);
                             $scope.typeCalendar = 'giorno';
-                            console.log($scope.typeCalendar);
-                            this.fc_nav(0);
+                            this.renderGiorno();
+                        } else {
+                            if ($scope.typeCalendar == 'mese'){
+                                if (dis != 0)
+                                    $scope.dataSelezionata.setMonth($scope.dataSelezionata.getMonth() + dis);
+                                this.renderMese();
+                            } else if ($scope.typeCalendar == 'settimana'){
+                                if (dis != 0)
+                                    $scope.dataSelezionata.setDate($scope.dataSelezionata.getDate() + dis*7);
+                                this.renderSettimana();
+                            } else if ($scope.typeCalendar == 'giorno'){
+                                if (dis != 0)
+                                    $scope.dataSelezionata.setDate($scope.dataSelezionata.getDate() + dis);
+                                this.renderGiorno();
+                            }
                         }
+                        this.loadEvents();
+                    }
 
-                        this.renderGiorno = function(){
+                    this.changeView = function(view){
+                        $scope.typeCalendar = view;
+                        console.log($scope.typeCalendar);
+                        this.fc_nav(0);
+                    }
 
-                            $scope.calRender = null;
+                    this.changeViewOnDay = function(view){
+                        console.log(view);
+                        $scope.dataSelezionata = new Date(view);
+                        $scope.typeCalendar = 'giorno';
+                        console.log($scope.typeCalendar);
+                        this.fc_nav(0);
+                    }
 
-                            var tempd = new Date($scope.dataSelezionata.valueOf());
+                    this.renderGiorno = function(){
 
-                            $scope.headerCalendar = meseName[tempd.getMonth()] + ' ' + tempd.getFullYear();
+                        $scope.calRender = null;
 
-                            var mr = Array();
+                        var tempd = new Date($scope.dataSelezionata.valueOf());
 
-                            var sett = Array();
+                        $scope.headerCalendar = meseName[tempd.getMonth()] + ' ' + tempd.getFullYear();
+
+                        var mr = Array();
+
+                        var sett = Array();
+                        tp ={
+                            label: tempd.getDate(),
+                            isToday : ((tempd.getDate() == dataOdierna.getDate()) && (tempd.getMonth() == dataOdierna.getMonth()) && (tempd.getFullYear() == dataOdierna.getFullYear())),
+                            full: formatDate(tempd)
+                        };
+                        sett.push(tp);
+                        mr.push(sett);
+                        $scope.altezzaRigaCalendario = 'min-height: 0px;';
+
+                        console.log(mr);
+
+                        $scope.settDay = new Array(settDay[(tempd.getDay()+6) % 7]);
+                        $scope.calRender = mr;
+
+                    }      
+
+                    this.renderSettimana = function(){
+
+                        $scope.settDay = settDay;
+
+                        $scope.calRender = null;
+
+                        var d = new Date($scope.dataSelezionata.valueOf());
+                        console.log(d);
+                        var tempd = new Date(d.setDate(d.getDate() - d.getDay() +1));
+
+                        $scope.headerCalendar = meseName[tempd.getMonth()] + ' ' + tempd.getFullYear();
+
+                        var mr = Array();
+
+                        var sett = Array();
+                        for (var k=1; k<8; ++k){
                             tp ={
                                 label: tempd.getDate(),
                                 isToday : ((tempd.getDate() == dataOdierna.getDate()) && (tempd.getMonth() == dataOdierna.getMonth()) && (tempd.getFullYear() == dataOdierna.getFullYear())),
                                 full: formatDate(tempd)
                             };
+                            tempd.setDate(tempd.getDate()+1);
                             sett.push(tp);
-                            mr.push(sett);
-                            $scope.altezzaRigaCalendario = 'min-height: 0px;';
+                        }
+                        mr.push(sett);
+                        $scope.altezzaRigaCalendario = 'min-height: 0px;';;
 
-                            console.log(mr);
+                        console.log(mr);
+                        $scope.calRender = mr;
 
-                            $scope.settDay = new Array(settDay[(tempd.getDay()+6) % 7]);
-                            $scope.calRender = mr;
+                    }                
 
-                        }      
+                    this.renderMese = function(){
 
-                        this.renderSettimana = function(){
+                        $scope.settDay = settDay;
+                        $scope.calRender = null;
+                        var d = new Date($scope.dataSelezionata.valueOf());
+                        var tempd = new Date(d.setDate(1));
+                        $scope.headerCalendar = meseName[tempd.getMonth()] + ' ' + tempd.getFullYear();
+                        var mr = Array();
 
-                            $scope.settDay = settDay;
-
-                            $scope.calRender = null;
-
-                            var d = new Date($scope.dataSelezionata.valueOf());
-                            console.log(d);
-                            var tempd = new Date(d.setDate(d.getDate() - d.getDay() +1));
-
-                            $scope.headerCalendar = meseName[tempd.getMonth()] + ' ' + tempd.getFullYear();
-
-                            var mr = Array();
-
+                        for (var i=0; i<6; ++i){
                             var sett = Array();
+                            var prev = -1;
                             for (var k=1; k<8; ++k){
-                                tp ={
-                                    label: tempd.getDate(),
-                                    isToday : ((tempd.getDate() == dataOdierna.getDate()) && (tempd.getMonth() == dataOdierna.getMonth()) && (tempd.getFullYear() == dataOdierna.getFullYear())),
-                                    full: formatDate(tempd)
+                                var tp ={
+                                    label: '',
+                                    isToday : false
                                 };
-                                tempd.setDate(tempd.getDate()+1);
+                                if (tempd.getDay() == (k + 7*i) % 7){
+                                    if (prev < tempd.getDate()){
+                                        prev = tempd.getDate();
+                                        tp ={
+                                            label: tempd.getDate(),
+                                            isToday : ((tempd.getDate() == dataOdierna.getDate()) && (tempd.getMonth() == dataOdierna.getMonth()) && (tempd.getFullYear() == dataOdierna.getFullYear())),
+                                            full: formatDate(tempd)
+                                        };
+                                        tempd.setDate(tempd.getDate()+1);
+                                    }
+                                }
                                 sett.push(tp);
                             }
                             mr.push(sett);
-                            $scope.altezzaRigaCalendario = 'min-height: 0px;';;
-
-                            console.log(mr);
-                            $scope.calRender = mr;
-
-                        }                
-
-                        this.renderMese = function(){
-
-                            $scope.settDay = settDay;
-                            $scope.calRender = null;
-                            var d = new Date($scope.dataSelezionata.valueOf());
-                            var tempd = new Date(d.setDate(1));
-                            $scope.headerCalendar = meseName[tempd.getMonth()] + ' ' + tempd.getFullYear();
-                            var mr = Array();
-
-                            for (var i=0; i<6; ++i){
-                                var sett = Array();
-                                var prev = -1;
-                                for (var k=1; k<8; ++k){
-                                    var tp ={
-                                        label: '',
-                                        isToday : false
-                                    };
-                                    if (tempd.getDay() == (k + 7*i) % 7){
-                                        if (prev < tempd.getDate()){
-                                            prev = tempd.getDate();
-                                            tp ={
-                                                label: tempd.getDate(),
-                                                isToday : ((tempd.getDate() == dataOdierna.getDate()) && (tempd.getMonth() == dataOdierna.getMonth()) && (tempd.getFullYear() == dataOdierna.getFullYear())),
-                                                full: formatDate(tempd)
-                                            };
-                                            tempd.setDate(tempd.getDate()+1);
-                                        }
-                                    }
-                                    sett.push(tp);
-                                }
-                                mr.push(sett);
-                                $scope.altezzaRigaCalendario = 'height: ' + (($scope.isPhone) ? 70 : 100) + 'px;';
-                                if (prev >= tempd.getDate())
-                                    break;
-                            }
-
-                            console.log(mr);
-                            $scope.calRender = mr;
+                            $scope.altezzaRigaCalendario = 'height: ' + (($scope.isPhone) ? 70 : 100) + 'px;';
+                            if (prev >= tempd.getDate())
+                                break;
                         }
+
+                        console.log(mr);
+                        $scope.calRender = mr;
                     }
+                }
 
-                });
+            });
 
-            </script>
-        </div>
+        </script>
     </body>
 </html>
